@@ -1,6 +1,7 @@
 namespace Nine.Animation
 {
     using System;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class AnimationTest : IFrameTimer, IAnimatable
@@ -12,6 +13,19 @@ namespace Nine.Animation
         public event Action<double> Tick;
 
         public void Update(double dt) => Tick?.Invoke(dt);
+
+        [Fact]
+        public async Task unsubscribe_to_tick_when_animation_is_complete()
+        {
+            Assert.Null(Tick);
+
+            var anim = this.TweenTo(x => { }, 0, 1);
+            Assert.NotNull(Tick);
+            Update(double.MaxValue);
+            await anim;
+
+            Assert.Null(Tick);
+        }
 
         [Theory]
         [InlineData(10)]
@@ -25,7 +39,7 @@ namespace Nine.Animation
 
             var repeatCount = 0;
             var to = random.NextDouble() * 100;
-            var anim = this.TweenTo(x => value = x, 0, to).SetRepeat(repeat);
+            var anim = this.TweenTo(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
             anim.Repeated += () => repeatCount++;
 
             while (anim.IsPlaying) Update((random.NextDouble() * 0.5 + 0.5) * step);

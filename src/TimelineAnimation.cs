@@ -108,9 +108,14 @@ namespace Nine.Animation
         public TimelineAnimation SetRepeat(double value) { Repeat = value; return this; }
 
         /// <summary>
-        /// Occurs when this animation has reached the end and has just repeated.
+        /// Occurs when this animation has just repeated.
         /// </summary>
         public event Action Repeated;
+
+        /// <summary>
+        /// Occurs when this animation has played to the end.
+        /// </summary>
+        public event Action Completed;
 
         /// <summary>
         /// Positions the animation at the specified time value between 0 and Duration.
@@ -150,6 +155,7 @@ namespace Nine.Animation
             {
                 IsPlaying = false;
                 continuation?.Invoke();
+                Completed?.Invoke();
                 return;
             }
 
@@ -195,6 +201,7 @@ namespace Nine.Animation
             if (!IsPlaying)
             {
                 continuation?.Invoke();
+                Completed?.Invoke();
             }
         }
 
