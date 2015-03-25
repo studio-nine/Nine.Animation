@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Width="960" Height="600" Background="#222">
     <Grid>
-        <Ellipse Width="100" Height="100" Fill="#444" />
+        <Ellipse Name="Ball" Width="100" Height="100" Fill="#444" />
     </Grid>
 </Window>

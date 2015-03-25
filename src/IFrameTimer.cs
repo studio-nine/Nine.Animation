@@ -4,6 +4,6 @@ namespace Nine.Animation
 
     public interface IFrameTimer
     {
-        event Action<float> Tick;
+        event Action<double> Tick;
     }
 }

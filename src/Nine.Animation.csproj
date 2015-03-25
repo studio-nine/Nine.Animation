@@ -37,7 +37,11 @@
     <DocumentationFile>bin\Release\Nine.Animation.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Animator.cs" />
+    <Compile Include="TimelineAnimation.cs" />
+    <Compile Include="TweenAnimation.cs" />
     <Compile Include="IAnimatable.cs" />
+    <Compile Include="IAnimation.cs" />
     <Compile Include="PortableFrameTimer.cs" />
     <Compile Include="IFrameTimer.cs" />
     <Compile Include="Easing.cs" />

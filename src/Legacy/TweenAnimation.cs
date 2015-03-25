@@ -188,11 +188,11 @@ namespace Nine.Animations
         /// </summary>
         protected override void OnSeek(TimeSpan currentPosition, TimeSpan previousPosition)
         {
-            float percentage = 0;
-            float position = (float)(Position.TotalSeconds / Duration.TotalSeconds);
+            double percentage = 0;
+            double position = (double)(Position.TotalSeconds / Duration.TotalSeconds);
 
             ICurve evaluator = curve ?? Curves.Linear;
-            if (!float.IsNaN(position))
+            if (!double.IsNaN(position))
             {
                 switch (Easing)
                 {
@@ -236,8 +236,8 @@ namespace Nine.Animations
 #else
             var field = typeof(TweenAnimation<T>).GetField("lerp", BindingFlags.NonPublic | BindingFlags.Instance);
 #endif
-            if (typeof(T) == typeof(float))
-                field.SetValue(this, (Interpolate<float>)MathHelper.Lerp);
+            if (typeof(T) == typeof(double))
+                field.SetValue(this, (Interpolate<double>)MathHelper.Lerp);
             else if (typeof(T) == typeof(double))
                 field.SetValue(this, (Interpolate<double>)LerpHelper.Lerp);
             else if (typeof(T) == typeof(bool))
@@ -283,8 +283,8 @@ namespace Nine.Animations
 #else
             var field = typeof(TweenAnimation<T>).GetField("add", BindingFlags.NonPublic | BindingFlags.Instance);
 #endif
-            if (typeof(T) == typeof(float))
-                field.SetValue(this, (Operator<float>)AddHelper.Add);
+            if (typeof(T) == typeof(double))
+                field.SetValue(this, (Operator<double>)AddHelper.Add);
             else if (typeof(T) == typeof(double))
                 field.SetValue(this, (Operator<double>)AddHelper.Add);
             else if (typeof(T) == typeof(int))

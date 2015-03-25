@@ -77,12 +77,12 @@ namespace Nine.Animations
         /// Gets or sets number of frames to be played per second.
         /// The default value is 24. 
         /// </summary>
-        public float FramesPerSecond 
+        public double FramesPerSecond 
         {
             get { return framesPerSecond; }
             set { framesPerSecond = value; UpdateDuration(); }
         }
-        private float framesPerSecond = 24;
+        private double framesPerSecond = 24;
 
         /// <summary>
         /// Gets the current frame index been played.
@@ -126,19 +126,19 @@ namespace Nine.Animations
         protected KeyframeAnimation()
         {
             CurrentFrame = 0;
-            Repeat = float.MaxValue;
+            Repeat = double.MaxValue;
         }
 
         /// <summary>
         /// Gets the index of the frame at the specified position.
         /// </summary>
-        private void GetFrame(TimeSpan position, out int frame, out float percentage)
+        private void GetFrame(TimeSpan position, out int frame, out double percentage)
         {
             if (position < TimeSpan.Zero || position > TotalDuration)
                 throw new ArgumentOutOfRangeException("position");
 
             frame = (int)(position.TotalSeconds * framesPerSecond);
-            percentage = (float)(position.TotalSeconds * framesPerSecond - frame);
+            percentage = (double)(position.TotalSeconds * framesPerSecond - frame);
             
             if (frame >= totalFrames)
             {
@@ -196,7 +196,7 @@ namespace Nine.Animations
         /// </summary>
         protected override sealed void OnSeek(TimeSpan position, TimeSpan previousPosition)
         {
-            float percentage;
+            double percentage;
             int current, previous;
 
             GetFrame(previousPosition, out previous, out percentage);
@@ -244,7 +244,7 @@ namespace Nine.Animations
         /// Moves the animation at the position between start frame and end frame
         /// specified by percentage.
         /// </summary>
-        protected virtual void OnSeek(int startFrame, int endFrame, float percentage) { }
+        protected virtual void OnSeek(int startFrame, int endFrame, double percentage) { }
 
         /// <summary>
         /// Called when the specified frame is entered.

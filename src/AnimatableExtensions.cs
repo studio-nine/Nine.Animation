@@ -29,7 +29,7 @@ namespace Nine.Animation
 
             public IFrameTimer FrameTimer
             {
-                get { return null; }
+                get { return PortableFrameTimer.Default; }
             }
 
             public FrameworkElementAnimatable(FrameworkElement e)
@@ -42,27 +42,27 @@ namespace Nine.Animation
                 this.e.RenderTransform = transform;
             }
 
-            public float Alpha
+            public double Alpha
             {
-                get { return (float)e.Opacity; }
+                get { return (double)e.Opacity; }
                 set { e.Opacity = value; }
             }
 
-            public float Orientation
+            public double Orientation
             {
-                get { return (float)e.Opacity; }
+                get { return (double)e.Opacity; }
                 set { e.Opacity = value; }
             }
 
-            public float X
+            public double X
             {
-                get { return (float)translate.X; }
+                get { return (double)translate.X; }
                 set { translate.X = value; }
             }
 
-            public float Y
+            public double Y
             {
-                get { return (float)translate.Y; }
+                get { return (double)translate.Y; }
                 set { translate.Y = value; }
             }
         }

@@ -4,15 +4,17 @@ namespace Nine.Animation
     using System.Diagnostics;
     using System.Threading.Tasks;
 
-    class PortableFrameTimer : IFrameTimer
+    public class PortableFrameTimer : IFrameTimer
     {
+        public static readonly IFrameTimer Default = new PortableFrameTimer();
+
         private static readonly TimeSpan frameTime = TimeSpan.FromSeconds(1.0 / 60);
 
         private bool running;
         private Stopwatch watch = new Stopwatch();
-        private Action<float> tick;
+        private Action<double> tick;
 
-        public event Action<float> Tick
+        public event Action<double> Tick
         {
             add
             {
@@ -30,9 +32,10 @@ namespace Nine.Animation
         {
             running = true;
             watch.Restart();
+
             while (running)
             {
-                if (tick != null) tick((float)watch.Elapsed.TotalMilliseconds);
+                if (tick != null) tick((double)watch.Elapsed.TotalMilliseconds);
                 watch.Restart();
                 await Task.Delay(frameTime);
             }

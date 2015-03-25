@@ -128,7 +128,7 @@ namespace Nine.Animations
         /// <summary>
         /// Updates the internal state of the object based on game time.
         /// </summary>
-        public override void Update(float elapsedTime)
+        public override void Update(double elapsedTime)
         {
             if (State == AnimationState.Playing)
             {
