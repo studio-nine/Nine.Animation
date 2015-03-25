@@ -1,6 +1,7 @@
 namespace Nine.Animation
 {
     using System;
+    using static System.Math;
 
     /// <summary>
     /// Defines whether the animation is playing forward or backward.
@@ -136,32 +137,37 @@ namespace Nine.Animation
         public virtual void Update(double dt)
         {
             if (!IsPlaying) return;
-
-            var ended = false;
-
+            
             var increment = dt * Speed;
 
-            var beginPosition = beginTime ?? 0;
+            var beginPosition = Max(0, beginTime ?? 0);
 
-            var endPosition = endTime ?? duration;
+            var endPosition = Min(endTime ?? duration, duration);
 
             var trimmedDuration = endPosition - beginPosition;
 
+            if (trimmedDuration <= 0)
+            {
+                IsPlaying = false;
+                continuation?.Invoke();
+                return;
+            }
+
             var totalDuration = Repeat * trimmedDuration;
 
-            var previousRepeat = Math.Floor(elapsedTime / trimmedDuration);
+            var previousRepeat = Floor(elapsedTime / trimmedDuration);
 
             elapsedTime += increment;
 
             if (elapsedTime > totalDuration)
             {
-                ended = true;
+                IsPlaying = false;
                 elapsedTime = totalDuration;
             }
 
-            var nextRepeat = Math.Floor(elapsedTime / trimmedDuration);
+            var nextRepeat = Floor(elapsedTime / trimmedDuration);
 
-            if (ended)
+            if (!IsPlaying)
             {
                 nextRepeat--; // Do not raise repeat event when the end is reached.
             }
@@ -186,9 +192,8 @@ namespace Nine.Animation
                 }
             }
 
-            if (ended)
+            if (!IsPlaying)
             {
-                IsPlaying = false;
                 continuation?.Invoke();
             }
         }

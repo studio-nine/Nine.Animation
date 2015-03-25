@@ -4,16 +4,15 @@ namespace Nine.Animation
 
     public static class Animator
     {
-        public static TweenAnimation TweenTo(this IAnimatable animatable, Func<double> get, Action<double> set, double to)
+        public static TweenAnimation TweenTo(this IAnimatable animatable, Action<double> set, double from, double to)
         {
-            var tween = new TweenAnimation(set) { From = get(), To = to };
+            var tween = new TweenAnimation(set) { From = from, To = to };
             animatable.FrameTimer.Tick += tween.Update;
             return tween;
         }
 
-        public static TweenAnimation TweenBy(this IAnimatable animatable, Func<double> get, Action<double> set, double by)
+        public static TweenAnimation TweenBy(this IAnimatable animatable, Action<double> set, double from, double by)
         {
-            var from = get();
             var tween = new TweenAnimation(set) { From = from, To = by + from };
             animatable.FrameTimer.Tick += tween.Update;
             return tween;
