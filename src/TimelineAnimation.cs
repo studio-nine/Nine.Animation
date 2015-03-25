@@ -97,10 +97,6 @@ namespace Nine.Animation
 
         public TimelineAnimation SetDirection(AnimationDirection value) { Direction = value; return this; }
 
-        public TimelineAnimation In() { Direction = AnimationDirection.Forward; return this; }
-        public TimelineAnimation Out() { Direction = AnimationDirection.Backward; return this; }
-        public TimelineAnimation InOut() { Direction = AnimationDirection.Forward; AutoReverse = true; Repeat = 2; duration /= 2; return this; }
-
         /// <summary>
         /// Gets or sets the number of times this animation will be played.
         /// When set to a fractional value, the animation will be stopped and completed part way.

@@ -3,6 +3,27 @@ namespace Nine.Animation
     using System;
 
     /// <summary>
+    /// Defines in which direction will the transition be eased.
+    /// </summary>
+    public enum EaseDirection
+    {
+        /// <summary>
+        /// Eased when transiting in.
+        /// </summary>
+        In,
+
+        /// <summary>
+        /// Eased when transiting out.
+        /// </summary>
+        Out,
+
+        /// <summary>
+        /// Eased when both transiting in and out.
+        /// </summary>
+        InOut,
+    }
+
+    /// <summary>
     /// Implements a basic primitive animation that changes its value over time.
     /// Can also update the value of a named target property on an target object.
     /// </summary>
@@ -12,8 +33,12 @@ namespace Nine.Animation
         public double To { get; set; }
 
         public Action<double> Set { get; set; }
+        public EaseDirection EaseDirection { get; set; }
         public Func<double, double> Easing { get; set; }
 
+        public TweenAnimation In() { this.EaseDirection = EaseDirection.In; return this; }
+        public TweenAnimation Out() { this.EaseDirection = EaseDirection.Out; return this; }
+        public TweenAnimation InOut() { this.EaseDirection = EaseDirection.InOut; return this; }
         public TweenAnimation SetEasing(Func<double, double> value) { this.Easing = value; return this; }
 
         public TweenAnimation() { }
@@ -23,8 +48,23 @@ namespace Nine.Animation
         {
             if (Set == null) return;
             if (Easing == null) Easing = Nine.Animation.Easing.Sin;
-            
-            Set.Invoke(From + Easing(percentage) * (To - From));
+
+            switch (EaseDirection)
+            {
+                case EaseDirection.In:
+                    percentage = Easing(percentage);
+                    break;
+                case EaseDirection.Out:
+                    percentage = 1.0f - Easing(1.0f - percentage);
+                    break;
+                case EaseDirection.InOut:
+                    percentage = percentage < 0.5f ? 
+                        (0.5f - Easing(1.0f - percentage * 2) * 0.5f) :
+                        (0.5f + Easing((percentage - 0.5f) * 2) * 0.5f);
+                    break;
+            }
+
+            Set.Invoke(From + percentage * (To - From));
         }
     }
 
@@ -38,10 +78,13 @@ namespace Nine.Animation
         public T To { get; set; }
 
         public Action<T> Set { get; set; }
-
+        public EaseDirection EaseDirection { get; set; }
         public Func<double, double> Easing { get; set; }
         public Func<T, T, double, T> Interpolate { get; set; }
 
+        public TweenAnimation<T> In() { this.EaseDirection = EaseDirection.In; return this; }
+        public TweenAnimation<T> Out() { this.EaseDirection = EaseDirection.Out; return this; }
+        public TweenAnimation<T> InOut() { this.EaseDirection = EaseDirection.InOut; return this; }
         public TweenAnimation<T> SetEasing(Func<double, double> value) { this.Easing = value; return this; }
         public TweenAnimation<T> SetInterpolate(Func<T, T, double, T> value) { this.Interpolate = value; return this; }
 
@@ -52,8 +95,22 @@ namespace Nine.Animation
         {
             if (Interpolate == null && Set == null) return;
             if (Easing == null) Easing = Nine.Animation.Easing.Sin;
-            
-            Set.Invoke(Interpolate(From, To, Easing(percentage)));
+
+            switch (EaseDirection)
+            {
+                case EaseDirection.In:
+                    percentage = Easing(percentage);
+                    break;
+                case EaseDirection.Out:
+                    percentage = 1.0f - Easing(1.0f - percentage);
+                    break;
+                case EaseDirection.InOut:
+                    percentage = percentage < 0.5f ? (0.5f - Easing(1.0f - percentage * 2) * 0.5f) :
+                                                   (0.5f + Easing((percentage - 0.5f) * 2) * 0.5f);
+                    break;
+            }
+
+            Set.Invoke(Interpolate(From, To, percentage));
         }
     }
 }

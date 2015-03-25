@@ -2,6 +2,7 @@ namespace Nine.Animation
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
 #if WPF
     using System.Windows;
     using System.Windows.Media;
@@ -21,6 +22,23 @@ namespace Nine.Animation
             return result;
         }
 
+        class DispatchFrameTimer : IFrameTimer
+        {
+            private Stopwatch watch = new Stopwatch();
+            public static readonly DispatchFrameTimer Default = new DispatchFrameTimer();
+
+            public DispatchFrameTimer()
+            {
+                CompositionTarget.Rendering += (sender, e) =>
+                {
+                    Tick?.Invoke(watch.Elapsed.TotalMilliseconds);
+                    watch.Restart();
+                };
+            }
+
+            public event Action<double> Tick;
+        }
+
         class FrameworkElementAnimatable : IAnimatable2D
         {
             private FrameworkElement e;
@@ -29,7 +47,7 @@ namespace Nine.Animation
 
             public IFrameTimer FrameTimer
             {
-                get { return PortableFrameTimer.Default; }
+                get { return DispatchFrameTimer.Default; }
             }
 
             public FrameworkElementAnimatable(FrameworkElement e)
