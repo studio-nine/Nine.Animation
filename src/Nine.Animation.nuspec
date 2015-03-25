@@ -5,10 +5,10 @@
     <version>$version$-alpha</version>
     <authors>$author$</authors>
     <iconUrl>https://avatars3.githubusercontent.com/u/9212229?s=64</iconUrl>
-    <licenseUrl>https://github.com/yufeih/Nine.Injection/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/yufeih/Nine.Injection</projectUrl>
+    <licenseUrl>https://github.com/yufeih/Nine.Animation/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/yufeih/Nine.Animation</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <tags>PCL, Portable, Animation, Tween, Transition, Easing</tags>
+    <tags>PCL, Portable, Animation, Tween, Transition, Easing, Pop, Rebound</tags>
   </metadata>
 </package>
