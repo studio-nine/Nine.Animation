@@ -1,9 +1,11 @@
 namespace Nine.Animation
 {
-    using System.Runtime.CompilerServices;
+    using System;
 
-    public interface IAnimation : INotifyCompletion
+    public interface IAnimation
     {
+        event Action Completed;
+
         void Update(double elapsedTime);
     }
 }

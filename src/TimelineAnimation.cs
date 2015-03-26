@@ -1,6 +1,7 @@
 namespace Nine.Animation
 {
     using System;
+    using System.Runtime.CompilerServices;
     using static System.Math;
 
     /// <summary>
@@ -22,7 +23,7 @@ namespace Nine.Animation
     /// <summary>
     /// Basic class for all timeline based animations.
     /// </summary>
-    public abstract class TimelineAnimation : IAnimation
+    public abstract class TimelineAnimation : IAnimation, INotifyCompletion
     {
         private double elapsedTime;
         private Action continuation;

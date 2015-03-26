@@ -12,31 +12,25 @@ namespace Nine.Animation
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public sealed class AnimatableAnimation : IAnimatable2D
-    {
-        internal IAnimatable2D parent;
-
-        public IFrameTimer FrameTimer => parent.FrameTimer;
-        public double Alpha { get { return parent.Alpha; } set { parent.Alpha = value; } }
-        public double Orientation { get { return parent.Orientation; } set { parent.Orientation = value; } }
-        public double X { get { return parent.X; } set { parent.X = value; } }
-        public double Y { get { return parent.Y; } set { parent.Y = value; } }
-
-        public AnimationAwaiter GetAwaiter()
-        {
-            return new AnimationAwaiter();
-        }
-    }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class Animator2D
     {
-        //public static AnimatableAnimation FadeIn(this IAnimatable2D target)
-        //{
-        //    var animation = target as AnimatableAnimation;
-        //    if (animation != null) target = animation.parent;
-        //    Animator.To(1.0f, () => target.Alpha, a => target.Alpha = a, 1000, null, EasingDirection.In);
-        //    return new AnimatableAnimation { parent = target };
-        //}
+        struct Vector2 { public double X; public double Y; }
+
+        public static TweenAnimation FadeIn(this IAnimatable2D target)
+        {
+            if (target.Alpha >= 1.0) return target.Tween(a => target.Alpha = a, 0.0, 1.0).Out();
+            return target.Tween(a => target.Alpha = a, target.Alpha, 1.0).Out();
+        }
+
+        public static TweenAnimation FadeOut(this IAnimatable2D target)
+        {
+            if (target.Alpha <= 0.0) return target.Tween(a => target.Alpha = a, 1.0, 0.0);
+            return target.Tween(a => target.Alpha = a, target.Alpha, 0.0);
+        }
+        
+        public static TweenAnimation MoveTo(this IAnimatable2D target, double x, double y)
+        {
+            return null;
+        }
     }
 }

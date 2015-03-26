@@ -27,12 +27,10 @@ namespace Nine.Animation
     /// Implements a basic primitive animation that changes its value over time.
     /// Can also update the value of a named target property on an target object.
     /// </summary>
-    public class TweenAnimation : TimelineAnimation
+    public abstract class TweenAnimation : TimelineAnimation
     {
-        public double From { get; set; }
-        public double To { get; set; }
+        static TweenAnimation() { Interpolate.Initialize(); }
 
-        public Action<double> Set { get; set; }
         public EaseDirection EaseDirection { get; set; }
         public Func<double, double> Easing { get; set; } = Nine.Animation.Easing.Sin;
 
@@ -40,57 +38,32 @@ namespace Nine.Animation
         public TweenAnimation Out() { this.EaseDirection = EaseDirection.Out; return this; }
         public TweenAnimation InOut() { this.EaseDirection = EaseDirection.InOut; return this; }
         public TweenAnimation SetEasing(Func<double, double> value) { this.Easing = value; return this; }
-
-        public TweenAnimation() { }
-        public TweenAnimation(Action<double> set) { this.Set = set; }
-
-        protected override void Seek(double percentage, double previousPercentage)
-        {
-            if (Set == null) return;
-            if (percentage <= 0) { Set(From); return; }
-            if (percentage >= 1) { Set(To); return; }
-
-            switch (EaseDirection)
-            {
-                case EaseDirection.In:
-                    percentage = Easing(percentage);
-                    break;
-                case EaseDirection.Out:
-                    percentage = 1.0 - Easing(1.0 - percentage);
-                    break;
-                case EaseDirection.InOut:
-                    percentage = percentage < 0.5 ?
-                        Easing(percentage * 2) * 0.5 :
-                        0.5 + (1.0 - Easing(1.0 - (percentage - 0.5) * 2)) *0.5;
-                    break;
-            }
-
-            Set.Invoke(From + percentage * (To - From));
-        }
     }
 
     /// <summary>
     /// Implements a basic primitive animation that changes its value over time.
     /// Can also update the value of a named target property on an target object.
     /// </summary>
-    public class TweenAnimation<T> : TimelineAnimation
+    public class TweenAnimation<T> : TweenAnimation
     {
         public T From { get; set; }
         public T To { get; set; }
 
         public Action<T> Set { get; set; }
-        public EaseDirection EaseDirection { get; set; }
-        public Func<double, double> Easing { get; set; } = Nine.Animation.Easing.Sin;
         public Func<T, T, double, T> Interpolate { get; set; }
 
-        public TweenAnimation<T> In() { this.EaseDirection = EaseDirection.In; return this; }
-        public TweenAnimation<T> Out() { this.EaseDirection = EaseDirection.Out; return this; }
-        public TweenAnimation<T> InOut() { this.EaseDirection = EaseDirection.InOut; return this; }
-        public TweenAnimation<T> SetEasing(Func<double, double> value) { this.Easing = value; return this; }
         public TweenAnimation<T> SetInterpolate(Func<T, T, double, T> value) { this.Interpolate = value; return this; }
 
         public TweenAnimation() { }
-        public TweenAnimation(Action<T> set, Func<T, T, double, T> interpolate) { this.Set = set; this.Interpolate = interpolate; }
+        public TweenAnimation(Action<T> set, Func<T, T, double, T> interpolate = null)
+        {
+            if (set == null) throw new ArgumentNullException(nameof(set));
+            
+            this.Set = set;
+            this.Interpolate = interpolate ?? Interpolate<T>.Value;
+
+            if (this.Interpolate == null) throw new ArgumentNullException($"Interpolator not found for type: { typeof(T) }");
+        }
 
         protected override void Seek(double percentage, double previousPercentage)
         {

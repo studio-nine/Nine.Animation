@@ -19,7 +19,7 @@ namespace Nine.Animation
         {
             Assert.Null(Tick);
 
-            var anim = this.TweenTo(x => { }, 0, 1);
+            var anim = this.Tween(x => { }, 0, 1);
             Assert.NotNull(Tick);
             Update(double.MaxValue);
             await anim;
@@ -39,7 +39,7 @@ namespace Nine.Animation
 
             var repeatCount = 0;
             var to = random.NextDouble() * 100;
-            var anim = this.TweenTo(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
+            var anim = this.Tween(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
             anim.Repeated += () => repeatCount++;
 
             while (anim.IsPlaying) Update((random.NextDouble() * 0.5 + 0.5) * step);
@@ -61,7 +61,7 @@ namespace Nine.Animation
 
             var repeatCount = 0;
             var from = random.NextDouble() * 100;
-            var anim = this.TweenTo(x => value = x, from, 0).SetRepeat(repeat).SetDirection(AnimationDirection.Backward);
+            var anim = this.Tween(x => value = x, from, 0).SetRepeat(repeat).SetDirection(AnimationDirection.Backward);
             anim.Repeated += () => repeatCount++;
 
             while (anim.IsPlaying) Update((random.NextDouble() * 0.5 + 0.5) * step);

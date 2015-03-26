@@ -28,7 +28,10 @@
 
             EasingList.ItemsSource = easings.Keys;
             EasingList.SelectionChanged += (sender, e) => Animate(Ball);
-            MouseLeftButtonDown += (sender, e) => Animate(Ball);
+            MouseLeftButtonDown += (sender, e) =>
+            {
+                Ball.Animate().FadeOut();
+            };
         }
 
         private async void Animate(FrameworkElement target)
@@ -38,7 +41,7 @@
             var autoReverse = AutoReverse.IsChecked ?? false;
 
             await target.Animate()
-                        .TweenTo(x => target.Animate().X = x, -300, 300)
+                        .Tween(x => target.Animate().X = x, -300, 300)
                         .InOut().SetEasing(easing).SetRepeat(repeat).SetAutoReverse(autoReverse);
         }
     }

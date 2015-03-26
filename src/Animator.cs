@@ -1,21 +1,14 @@
 namespace Nine.Animation
 {
     using System;
+    using System.ComponentModel;
 
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static class Animator
     {
-        public static TweenAnimation TweenTo(this IAnimatable animatable, Action<double> set, double from, double to)
+        public static TweenAnimation<T> Tween<T>(this IAnimatable animatable, Action<T> set, T from, T to, Func<T, T, double, T> interpolate = null)
         {
-            var tween = new TweenAnimation(set) { From = from, To = to };
-            var timer = animatable.FrameTimer;
-            timer.Tick += tween.Update;
-            tween.Completed += () => timer.Tick -= tween.Update;
-            return tween;
-        }
-
-        public static TweenAnimation TweenBy(this IAnimatable animatable, Action<double> set, double from, double by)
-        {
-            var tween = new TweenAnimation(set) { From = from, To = by + from };
+            var tween = new TweenAnimation<T>(set, interpolate) { From = from, To = to };
             var timer = animatable.FrameTimer;
             timer.Tick += tween.Update;
             tween.Completed += () => timer.Tick -= tween.Update;
