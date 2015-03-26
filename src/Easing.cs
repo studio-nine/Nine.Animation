@@ -5,10 +5,10 @@ namespace Nine.Animation
     public static class Easing
     {
         public static double Linear(double t) => t;
-        //public static double Quad(double t) => c * (t /= d) * t + b;
-        //public static double Cubic(double t) => c * (t /= d) * t * t + b;
-        //public static double Quart(double t) => c * (t /= d) * t * t * t + b;
-        //public static double Quint(double t) => c * (t /= d) * t * t * t * t + b;
+        public static double Quad(double t) => t * t;
+        public static double Cubic(double t) => t * t * t;
+        public static double Quart(double t) => t * t * t * t;
+        public static double Quint(double t) => t * t * t * t * t;
 
         //public static double Exp(double t, double b, double c, double d) => (t == 0) ? b : c * (double)Math.Pow(2, 10 * (t / d - 1)) + b;
         public static double Sin(double t) => Math.Sin(t * Math.PI / 2);

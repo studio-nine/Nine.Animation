@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Width="960" Height="600" Background="#222">
     <Grid>
-        <Ellipse Name="Ball" Width="100" Height="100" Fill="#444" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ListBox Name="EasingList" Background="#181818" Foreground="#222" BorderThickness="0" />
+        <Grid Grid.Column="1">
+            <Ellipse Name="Ball" Width="100" Height="100" Fill="#444" />
+        </Grid>
     </Grid>
 </Window>
