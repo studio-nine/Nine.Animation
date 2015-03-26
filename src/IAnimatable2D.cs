@@ -8,6 +8,10 @@ namespace Nine.Animation
         double X { get; set; }
         double Y { get; set; }
         double Alpha { get; set; }
+
+        /// <summary>
+        /// Gets or sets the rotation in radius.
+        /// </summary>
         double Rotation { get; set; }
     }
 
@@ -62,6 +66,21 @@ namespace Nine.Animation
             return target.Tween(a => target.Rotation = a, target.Rotation, target.Rotation + angle)
                          .SetEasing(Easing.Cubic)
                          .InOut();
+        }
+
+        public static TweenAnimation SpinOnce(this IAnimatable2D target)
+        {
+            return target.Tween(a => target.Rotation = a, target.Rotation, target.Rotation + Math.PI * 2)
+                         .SetEasing(Easing.Cubic)
+                         .InOut();
+        }
+
+        public static TweenAnimation Spin(this IAnimatable2D target)
+        {
+            return (TweenAnimation)
+                target.Tween(a => target.Rotation = a, target.Rotation, target.Rotation + Math.PI * 2)
+                      .SetEasing(Easing.Linear)
+                      .RepeatForever();
         }
     }
 }

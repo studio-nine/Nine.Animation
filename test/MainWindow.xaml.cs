@@ -32,7 +32,9 @@
             {
                 // Ball.Animate().FadeOut();
                 // Ball.Animate().MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y);
-                // Ball.Animate().RotateBy(180);
+                // Ball.Animate().RotateBy(Math.PI);
+                // Ball.Animate().SpinOnce();
+                // Ball.Animate().Spin();
             };
         }
 

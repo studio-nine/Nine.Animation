@@ -68,8 +68,8 @@ namespace Nine.Animation
 
             public double Rotation
             {
-                get { return (double)rotate.Angle; }
-                set { rotate.Angle = value; }
+                get { return Math.PI * rotate.Angle / 180; }
+                set { rotate.Angle = value / Math.PI * 180; }
             }
 
             public double X
