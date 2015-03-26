@@ -66,10 +66,10 @@ namespace Nine.Animation
                 set { e.Opacity = value; }
             }
 
-            public double Orientation
+            public double Rotation
             {
-                get { return (double)e.Opacity; }
-                set { e.Opacity = value; }
+                get { return (double)rotate.Angle; }
+                set { rotate.Angle = value; }
             }
 
             public double X

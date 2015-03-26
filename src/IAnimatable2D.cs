@@ -8,7 +8,7 @@ namespace Nine.Animation
         double X { get; set; }
         double Y { get; set; }
         double Alpha { get; set; }
-        double Orientation { get; set; }
+        double Rotation { get; set; }
     }
 
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -46,6 +46,20 @@ namespace Nine.Animation
         public static TweenAnimation MoveBy(this IAnimatable2D target, double x, double y)
         {
             return target.Tween(a => { target.X = a.X; target.Y = a.Y; }, new Vector2 { X = target.X, Y = target.Y }, new Vector2 { X = target.X + x, Y = target.Y + y })
+                         .SetEasing(Easing.Cubic)
+                         .InOut();
+        }
+
+        public static TweenAnimation RotateTo(this IAnimatable2D target, double angle)
+        {
+            return target.Tween(a => target.Rotation = a, target.Rotation, angle)
+                         .SetEasing(Easing.Cubic)
+                         .InOut();
+        }
+
+        public static TweenAnimation RotateBy(this IAnimatable2D target, double angle)
+        {
+            return target.Tween(a => target.Rotation = a, target.Rotation, target.Rotation + angle)
                          .SetEasing(Easing.Cubic)
                          .InOut();
         }

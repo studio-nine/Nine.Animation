@@ -31,7 +31,8 @@
             MouseLeftButtonDown += (sender, e) =>
             {
                 // Ball.Animate().FadeOut();
-                Ball.Animate().MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y);
+                // Ball.Animate().MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y);
+                // Ball.Animate().RotateBy(180);
             };
         }
 
