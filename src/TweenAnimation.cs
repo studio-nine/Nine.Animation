@@ -34,7 +34,7 @@ namespace Nine.Animation
 
         public Action<double> Set { get; set; }
         public EaseDirection EaseDirection { get; set; }
-        public Func<double, double> Easing { get; set; }
+        public Func<double, double> Easing { get; set; } = Nine.Animation.Easing.Sin;
 
         public TweenAnimation In() { this.EaseDirection = EaseDirection.In; return this; }
         public TweenAnimation Out() { this.EaseDirection = EaseDirection.Out; return this; }
@@ -47,7 +47,8 @@ namespace Nine.Animation
         protected override void Seek(double percentage, double previousPercentage)
         {
             if (Set == null) return;
-            if (Easing == null) Easing = Nine.Animation.Easing.Sin;
+            if (percentage <= 0) { Set(From); return; }
+            if (percentage >= 1) { Set(To); return; }
 
             switch (EaseDirection)
             {
@@ -79,7 +80,7 @@ namespace Nine.Animation
 
         public Action<T> Set { get; set; }
         public EaseDirection EaseDirection { get; set; }
-        public Func<double, double> Easing { get; set; }
+        public Func<double, double> Easing { get; set; } = Nine.Animation.Easing.Sin;
         public Func<T, T, double, T> Interpolate { get; set; }
 
         public TweenAnimation<T> In() { this.EaseDirection = EaseDirection.In; return this; }
@@ -94,7 +95,8 @@ namespace Nine.Animation
         protected override void Seek(double percentage, double previousPercentage)
         {
             if (Interpolate == null && Set == null) return;
-            if (Easing == null) Easing = Nine.Animation.Easing.Sin;
+            if (percentage <= 0) { Set(From); return; }
+            if (percentage >= 1) { Set(To); return; }
 
             switch (EaseDirection)
             {

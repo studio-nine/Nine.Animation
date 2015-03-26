@@ -143,7 +143,7 @@ namespace Nine.Animation
         public virtual void Update(double dt)
         {
             if (!IsPlaying) return;
-            
+
             var increment = dt * Speed;
 
             var beginPosition = Max(0, beginTime ?? 0);
@@ -181,13 +181,20 @@ namespace Nine.Animation
 
             var nextPosition = elapsedTime - nextRepeat * trimmedDuration;
 
-            var currentReverse = (AutoReverse && nextRepeat % 2 == 1 ? !reverse : reverse);
+            var isReversed = (AutoReverse && nextRepeat % 2 == 1 ? !reverse : reverse);
 
             var previousPosition = position;
 
-            position = currentReverse ? endPosition - nextPosition : beginPosition + nextPosition;
+            position = isReversed ? endPosition - nextPosition : beginPosition + nextPosition;
 
-            Seek(position / duration, previousPosition / duration);
+            if (!IsPlaying && Floor(Repeat) == Repeat && (isReversed && beginTime == null || !isReversed && endTime == null))
+            {
+                Seek(isReversed ? 0.0 : 1.0, previousPosition / duration);
+            }
+            else
+            {
+                Seek(position / duration, previousPosition / duration);
+            }
 
             var repeated = Repeated;
             if (repeated != null)
