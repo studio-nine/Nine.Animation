@@ -41,7 +41,9 @@ namespace Nine.Animation
             get { return TimeSpan.FromMilliseconds(duration); }
             set { duration = value.TotalMilliseconds; }
         }
-        private double duration = 1000;
+        private double duration = DefaultDuration.TotalMilliseconds;
+
+        public static TimeSpan DefaultDuration { get; set; } = TimeSpan.FromSeconds(1);
 
         public TimelineAnimation SetDuration(double duration) { this.duration = duration; return this; }
         public TimelineAnimation SetDuration(TimeSpan duration) { this.duration = duration.TotalMilliseconds; return this; }
@@ -76,7 +78,9 @@ namespace Nine.Animation
         /// <summary>
         /// Gets or sets the playing speed of this animation.
         /// </summary>
-        public double Speed { get; set; } = 1.0f;
+        public double Speed { get; set; } = DefaultSpeed;
+
+        public static double DefaultSpeed { get; set; } = 1.0;
 
         /// <summary>
         /// Gets whether this animation should play backwards after it reaches the end.

@@ -42,8 +42,9 @@ namespace Nine.Animation
         class FrameworkElementAnimatable : IAnimatable2D
         {
             private FrameworkElement e;
-            private TranslateTransform translate;
+            private ScaleTransform scale;
             private RotateTransform rotate;
+            private TranslateTransform translate;
 
             public IFrameTimer FrameTimer
             {
@@ -53,8 +54,9 @@ namespace Nine.Animation
             public FrameworkElementAnimatable(FrameworkElement e)
             {
                 var transform = new TransformGroup();
-                transform.Children.Add(translate = new TranslateTransform());
+                transform.Children.Add(scale = new ScaleTransform());
                 transform.Children.Add(rotate = new RotateTransform());
+                transform.Children.Add(translate = new TranslateTransform());
 
                 this.e = e;
                 this.e.RenderTransform = transform;
@@ -82,6 +84,18 @@ namespace Nine.Animation
             {
                 get { return (double)translate.Y; }
                 set { translate.Y = value; }
+            }
+
+            public double ScaleX
+            {
+                get { return (double)scale.ScaleX; }
+                set { scale.ScaleX = value; }
+            }
+
+            public double ScaleY
+            {
+                get { return (double)scale.ScaleY; }
+                set { scale.ScaleY = value; }
             }
         }
 #endif

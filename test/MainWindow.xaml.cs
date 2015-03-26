@@ -30,11 +30,13 @@
             EasingList.SelectionChanged += (sender, e) => Animate(Ball);
             MouseLeftButtonDown += (sender, e) =>
             {
+                // Ball.Animate().FadeTo(0.5);
                 // Ball.Animate().FadeOut();
                 // Ball.Animate().MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y);
                 // Ball.Animate().RotateBy(Math.PI);
                 // Ball.Animate().SpinOnce();
                 // Ball.Animate().Spin();
+                // Ball.Animate().ScaleBy(1.5, 2.0);
             };
         }
 

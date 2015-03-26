@@ -29,10 +29,13 @@ namespace Nine.Animation
     /// </summary>
     public abstract class TweenAnimation : TimelineAnimation
     {
+        public static Func<double, double> DefaultEasing { get; set; } = Nine.Animation.Easing.Sin;
+        public static EaseDirection DefaultEaseDirection { get; set; } = EaseDirection.InOut;
+
         static TweenAnimation() { Interpolate.Initialize(); }
 
-        public EaseDirection EaseDirection { get; set; }
-        public Func<double, double> Easing { get; set; } = Nine.Animation.Easing.Sin;
+        public EaseDirection EaseDirection { get; set; } = DefaultEaseDirection;
+        public Func<double, double> Easing { get; set; } = DefaultEasing;
 
         public TweenAnimation In() { this.EaseDirection = EaseDirection.In; return this; }
         public TweenAnimation Out() { this.EaseDirection = EaseDirection.Out; return this; }
