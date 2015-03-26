@@ -97,6 +97,9 @@ namespace Nine.Animation
                 get { return (double)scale.ScaleY; }
                 set { scale.ScaleY = value; }
             }
+
+            public double SpeedX { get; set; }
+            public double SpeedY { get; set; }
         }
 #endif
     }

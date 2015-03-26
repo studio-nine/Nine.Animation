@@ -38,7 +38,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animator.cs" />
+    <Compile Include="Animator2D.cs" />
     <Compile Include="Interpolate.cs" />
+    <Compile Include="Animation.cs" />
     <Compile Include="TimelineAnimation.cs" />
     <Compile Include="TweenAnimation.cs" />
     <Compile Include="IAnimatable.cs" />

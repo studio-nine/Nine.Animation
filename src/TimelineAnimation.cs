@@ -23,15 +23,10 @@ namespace Nine.Animation
     /// <summary>
     /// Basic class for all timeline based animations.
     /// </summary>
-    public abstract class TimelineAnimation : IAnimation, INotifyCompletion
+    public abstract class TimelineAnimation : Animation
     {
         private double elapsedTime;
         private Action continuation;
-
-        /// <summary>
-        /// Gets a value indicating whether this animation is playing.
-        /// </summary>
-        public bool IsPlaying { get; private set; } = true;
 
         /// <summary>
         /// Gets or set the duration for this animation. This value is not affected by BeginTime, EndTime and Repeat.
@@ -120,11 +115,6 @@ namespace Nine.Animation
         public event Action Repeated;
 
         /// <summary>
-        /// Occurs when this animation has played to the end.
-        /// </summary>
-        public event Action Completed;
-
-        /// <summary>
         /// Positions the animation at the specified time value between 0 and Duration.
         /// Takes effect on an animation that is playing or paused.
         /// Adjusts elapsed time, so that animation will stop on time.
@@ -146,9 +136,11 @@ namespace Nine.Animation
         /// Determines whether animation should terminate or continue.
         /// Signals related events.
         /// </summary>
-        public virtual void Update(double dt)
+        public override void Update(double dt)
         {
             if (!IsPlaying) return;
+
+            var ended = false;
 
             var increment = dt * Speed;
 
@@ -160,9 +152,7 @@ namespace Nine.Animation
 
             if (trimmedDuration <= 0)
             {
-                IsPlaying = false;
-                continuation?.Invoke();
-                Completed?.Invoke();
+                Complete();
                 return;
             }
 
@@ -174,13 +164,13 @@ namespace Nine.Animation
 
             if (elapsedTime > totalDuration)
             {
-                IsPlaying = false;
+                ended = true;
                 elapsedTime = totalDuration;
             }
 
             var nextRepeat = Floor(elapsedTime / trimmedDuration);
 
-            if (!IsPlaying)
+            if (ended)
             {
                 nextRepeat--; // Do not raise repeat event when the end is reached.
             }
@@ -193,7 +183,7 @@ namespace Nine.Animation
 
             position = isReversed ? endPosition - nextPosition : beginPosition + nextPosition;
 
-            if (!IsPlaying && Floor(Repeat) == Repeat && (isReversed && beginTime == null || !isReversed && endTime == null))
+            if (ended && Floor(Repeat) == Repeat && (isReversed && beginTime == null || !isReversed && endTime == null))
             {
                 Seek(isReversed ? 0.0 : 1.0, previousPosition / duration);
             }
@@ -212,16 +202,10 @@ namespace Nine.Animation
                 }
             }
 
-            if (!IsPlaying)
+            if (ended)
             {
-                continuation?.Invoke();
-                Completed?.Invoke();
+                Complete();
             }
         }
-
-        public bool IsCompleted => !IsPlaying;
-        public void GetResult() { }
-        public TimelineAnimation GetAwaiter() => this;
-        public void OnCompleted(Action continuation) => this.continuation = continuation;
     }
 }
