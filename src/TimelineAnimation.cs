@@ -106,6 +106,7 @@ namespace Nine.Animation
         public double Repeat { get; set; } = 1;
 
         public TimelineAnimation SetRepeat(double value) { Repeat = value; return this; }
+        public TimelineAnimation RepeatForever() { Repeat = double.MaxValue; return this; }
 
         /// <summary>
         /// Occurs when this animation has just repeated.

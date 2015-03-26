@@ -4,34 +4,33 @@ namespace Nine.Animation
 
     public static class Easing
     {
-        public static double Linear(double t) => t;
-        public static double Quad(double t) => t * t;
-        public static double Cubic(double t) => t * t * t;
-        public static double Quart(double t) => t * t * t * t;
-        public static double Quint(double t) => t * t * t * t * t;
+        public static double Linear(double x) => x;
+        public static double Quad(double x) => x * x;
+        public static double Cubic(double x) => x * x * x;
+        public static double Quart(double x) => x * x * x * x;
+        public static double Quint(double x) => x * x * x * x * x;
 
-        //public static double Exp(double t, double b, double c, double d) => (t == 0) ? b : c * (double)Math.Pow(2, 10 * (t / d - 1)) + b;
-        public static double Sin(double t) => Math.Sin(t * Math.PI / 2);
-        //public static double Sqrt(double t, double b, double c, double d) => -c * ((double)Math.Sqrt(1 - (t /= d) * t) - 1) + b;
+        public static double Exp(double x) => (x <= 0) ? 0 : Math.Pow(2, 10 * (x - 1));
+        public static double Sin(double x) => 1 - Math.Cos(x * Math.PI / 2);
+        public static double Circular(double x) => 1 - Math.Sqrt(1 - x * x);
 
-        //public static double Elastic(double t, double b, double c, double d)
-        //{
-        //    if (t == 0) return b; if ((t /= d) == 1) return b + c;
-        //    double p = d * .3f;
-        //    double a = c;
-        //    double s = p / 4;
-        //    return -(a * (double)Math.Pow(2, 10 * (t -= 1)) * (double)Math.Sin((t * d - s) * (2 * (double)Math.PI) / p)) + b;
-        //}
+        public static double Back(double x) => x * x * ((1.70158f + 1) * x - 1.70158f);
+        public static Func<double, double> GetBack(double bounciness) => (double x) => x * x * ((bounciness + 1) * x - bounciness);
 
-        //public static double Back(double t, double b, double c, double d) => c * (t /= d) * t * ((1.70158f + 1) * t - 1.70158f) + b;
-        //public static Func<double, double, double, double, double> Back(double back) => (double t, double b, double c, double d) => c * (t /= d) * t * ((back + 1) * t - back) + b;
+        public static double Bounce(double x)
+        {
+            if (x < (1 / 2.75f)) return 7.5625f * x * x;
+            if (x < (2 / 2.75f)) return 7.5625f * (x -= (1.5f / 2.75f)) * x + .75f;
+            if (x < (2.5 / 2.75)) return 7.5625f * (x -= (2.25f / 2.75f)) * x + .9375f;
+            return 7.5625f * (x -= (2.625f / 2.75f)) * x + .984375f;
+        }
 
-        //public static double Bounce(double t, double b, double c, double d)
-        //{
-        //    if ((t /= d) < (1 / 2.75f)) return c * (7.5625f * t * t) + b;
-        //    if (t < (2 / 2.75f)) return c * (7.5625f * (t -= (1.5f / 2.75f)) * t + .75f) + b;
-        //    if (t < (2.5 / 2.75)) return c * (7.5625f * (t -= (2.25f / 2.75f)) * t + .9375f) + b;
-        //    return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
-        //}
+        public static double Elastic(double x)
+        {
+            if (x <= 0) return 0; if (x >= 1) return 1;
+            double p = .3f;
+            double s = p / 4;
+            return -(Math.Pow(2, 10 * (x -= 1)) * Math.Sin((x - s) * (2 * Math.PI) / p));
+        }
     }
 }

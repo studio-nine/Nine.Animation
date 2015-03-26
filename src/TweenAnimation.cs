@@ -55,12 +55,12 @@ namespace Nine.Animation
                     percentage = Easing(percentage);
                     break;
                 case EaseDirection.Out:
-                    percentage = 1.0f - Easing(1.0f - percentage);
+                    percentage = 1.0 - Easing(1.0 - percentage);
                     break;
                 case EaseDirection.InOut:
-                    percentage = percentage < 0.5f ? 
-                        (0.5f - Easing(1.0f - percentage * 2) * 0.5f) :
-                        (0.5f + Easing((percentage - 0.5f) * 2) * 0.5f);
+                    percentage = percentage < 0.5 ?
+                        Easing(percentage * 2) * 0.5 :
+                        0.5 + (1.0 - Easing(1.0 - (percentage - 0.5) * 2)) *0.5;
                     break;
             }
 
@@ -102,11 +102,12 @@ namespace Nine.Animation
                     percentage = Easing(percentage);
                     break;
                 case EaseDirection.Out:
-                    percentage = 1.0f - Easing(1.0f - percentage);
+                    percentage = 1.0 - Easing(1.0 - percentage);
                     break;
                 case EaseDirection.InOut:
-                    percentage = percentage < 0.5f ? (0.5f - Easing(1.0f - percentage * 2) * 0.5f) :
-                                                   (0.5f + Easing((percentage - 0.5f) * 2) * 0.5f);
+                    percentage = percentage < 0.5 ?
+                        Easing(percentage * 2) * 0.5 :
+                        0.5 + (1.0 - Easing(1.0 - (percentage - 0.5) * 2)) * 0.5;
                     break;
             }
 

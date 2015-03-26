@@ -1,17 +1,25 @@
 ﻿<Window x:Class="Nine.Animation.Test.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nine.Animation.Test"
-        mc:Ignorable="d"
         Title="MainWindow" Width="960" Height="600" Background="#222">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListBox Name="EasingList" Background="#181818" Foreground="#222" BorderThickness="0" />
+        <Grid Background="#181818">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListBox Name="EasingList" Background="Transparent" Foreground="#888" BorderThickness="0" SelectedIndex="0">
+            </ListBox>
+            <StackPanel Grid.Row="1">
+                <CheckBox Name="AutoReverse" Foreground="#888" Margin="20">Auto Reverse</CheckBox>
+                <CheckBox Name="Repeat" Foreground="#888" Margin="20">Repeat Forever</CheckBox>
+            </StackPanel>
+        </Grid>
         <Grid Grid.Column="1">
             <Ellipse Name="Ball" Width="100" Height="100" Fill="#444" />
         </Grid>
