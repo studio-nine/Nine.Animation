@@ -112,6 +112,7 @@ namespace Nine.Animation
 
         public TimelineAnimation SetRepeat(double value) { Repeat = value; return this; }
         public TimelineAnimation RepeatForever() { Repeat = double.MaxValue; return this; }
+        public TimelineAnimation Yoyo() { Repeat = double.MaxValue; AutoReverse = true; return this; }
 
         /// <summary>
         /// Occurs when this animation has just repeated.
