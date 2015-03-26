@@ -48,7 +48,6 @@
     <Compile Include="Easing.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IAnimatable2D.cs" />
-    <Compile Include="Awaitable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Nine.Animation.nuspec" />

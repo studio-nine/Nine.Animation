@@ -30,7 +30,8 @@
             EasingList.SelectionChanged += (sender, e) => Animate(Ball);
             MouseLeftButtonDown += (sender, e) =>
             {
-                Ball.Animate().FadeOut();
+                // Ball.Animate().FadeOut();
+                Ball.Animate().MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y);
             };
         }
 

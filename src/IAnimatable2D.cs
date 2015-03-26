@@ -15,6 +15,14 @@ namespace Nine.Animation
     public static class Animator2D
     {
         struct Vector2 { public double X; public double Y; }
+        static Animator2D()
+        {
+            Interpolate<Vector2>.Value = (Vector2 a, Vector2 b, double t) => new Vector2
+            {
+                X = a.X * (1 - t) + b.X * t,
+                Y = a.Y * (1 - t) + b.Y * t,
+            };
+        }
 
         public static TweenAnimation FadeIn(this IAnimatable2D target)
         {
@@ -30,7 +38,16 @@ namespace Nine.Animation
         
         public static TweenAnimation MoveTo(this IAnimatable2D target, double x, double y)
         {
-            return null;
+            return target.Tween(a => { target.X = a.X; target.Y = a.Y; }, new Vector2 { X = target.X, Y = target.Y }, new Vector2 { X = x, Y = y })
+                         .SetEasing(Easing.Cubic)
+                         .InOut();
+        }
+
+        public static TweenAnimation MoveBy(this IAnimatable2D target, double x, double y)
+        {
+            return target.Tween(a => { target.X = a.X; target.Y = a.Y; }, new Vector2 { X = target.X, Y = target.Y }, new Vector2 { X = target.X + x, Y = target.Y + y })
+                         .SetEasing(Easing.Cubic)
+                         .InOut();
         }
     }
 }
