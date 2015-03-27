@@ -17,7 +17,7 @@ namespace Nine.Animation
         /// </summary>
         public event Action Completed;
 
-        public abstract void Update(double elapsedTime);
+        public abstract bool Update(double elapsedTime);
 
         public void Complete()
         {

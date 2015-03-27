@@ -10,8 +10,7 @@ namespace Nine.Animation
         {
             var tween = new TweenAnimation<T>(set, interpolate) { From = from, To = to };
             var timer = animatable.FrameTimer;
-            timer.Tick += tween.Update;
-            tween.Completed += () => timer.Tick -= tween.Update;
+            timer.Tick(tween.Update);
             return tween;
         }
     }

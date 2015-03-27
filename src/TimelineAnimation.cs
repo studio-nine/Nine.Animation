@@ -136,9 +136,9 @@ namespace Nine.Animation
         /// Determines whether animation should terminate or continue.
         /// Signals related events.
         /// </summary>
-        public override void Update(double dt)
+        public override bool Update(double dt)
         {
-            if (!IsPlaying) return;
+            if (!IsPlaying) return true;
 
             var ended = false;
 
@@ -153,7 +153,7 @@ namespace Nine.Animation
             if (trimmedDuration <= 0)
             {
                 Complete();
-                return;
+                return true;
             }
 
             var totalDuration = Repeat * trimmedDuration;
@@ -205,7 +205,10 @@ namespace Nine.Animation
             if (ended)
             {
                 Complete();
+                return true;
             }
+
+            return false;
         }
     }
 }

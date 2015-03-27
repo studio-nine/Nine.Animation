@@ -22,21 +22,14 @@ namespace Nine.Animation
             return result;
         }
 
-        class DispatchFrameTimer : IFrameTimer
+        class DispatchFrameTimer : FrameTimer
         {
-            private Stopwatch watch = new Stopwatch();
             public static readonly DispatchFrameTimer Default = new DispatchFrameTimer();
 
             public DispatchFrameTimer()
             {
-                CompositionTarget.Rendering += (sender, e) =>
-                {
-                    Tick?.Invoke(watch.Elapsed.TotalMilliseconds);
-                    watch.Restart();
-                };
+                CompositionTarget.Rendering += (sender, e) => UpdateFrame();
             }
-
-            public event Action<double> Tick;
         }
 
         class FrameworkElementAnimatable : IAnimatable2D

@@ -1,42 +1,30 @@
 namespace Nine.Animation
 {
     using System;
-    using System.Diagnostics;
     using System.Threading.Tasks;
 
-    public class PortableFrameTimer : IFrameTimer
+    public class PortableFrameTimer : FrameTimer
     {
-        public static readonly IFrameTimer Default = new PortableFrameTimer();
+        public static readonly PortableFrameTimer Default = new PortableFrameTimer();
 
         private static readonly TimeSpan frameTime = TimeSpan.FromSeconds(1.0 / 60);
 
         private bool running;
-        private Stopwatch watch = new Stopwatch();
-        private Action<double> tick;
 
-        public event Action<double> Tick
+        public override void Tick(Func<double, bool> listener)
         {
-            add
-            {
-                tick += value;
-                if (!running) Loop();
-            }
-            remove
-            {
-                tick -= value;
-                if (tick == null) running = false;
-            }
+            base.Tick(listener);
+            if (!running) Loop();
         }
 
         private async void Loop()
         {
             running = true;
-            watch.Restart();
 
             while (running)
             {
-                if (tick != null) tick((double)watch.Elapsed.TotalMilliseconds);
-                watch.Restart();
+                UpdateFrame();
+
                 await Task.Delay(frameTime);
             }
         }

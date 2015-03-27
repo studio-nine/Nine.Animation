@@ -1,31 +1,13 @@
 namespace Nine.Animation
 {
     using System;
-    using System.Threading.Tasks;
     using Xunit;
 
-    public class AnimationTest : IFrameTimer, IAnimatable
+    public class AnimationTest : FrameTimer, IAnimatable
     {
         private Random random = new Random();
 
         public IFrameTimer FrameTimer => this;
-
-        public event Action<double> Tick;
-
-        public void Update(double dt) => Tick?.Invoke(dt);
-
-        [Fact]
-        public async Task unsubscribe_to_tick_when_animation_is_complete()
-        {
-            Assert.Null(Tick);
-
-            var anim = this.Tween(x => { }, 0, 1);
-            Assert.NotNull(Tick);
-            Update(double.MaxValue);
-            await anim;
-
-            Assert.Null(Tick);
-        }
 
         [Theory]
         [InlineData(10)]
@@ -42,7 +24,7 @@ namespace Nine.Animation
             var anim = this.Tween(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
             anim.Repeated += () => repeatCount++;
 
-            while (anim.IsPlaying) Update((random.NextDouble() * 0.5 + 0.5) * step);
+            while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
 
             Assert.True(anim.IsCompleted);
             Assert.Equal(to, value);
@@ -64,7 +46,7 @@ namespace Nine.Animation
             var anim = this.Tween(x => value = x, from, 0).SetRepeat(repeat).SetDirection(AnimationDirection.Backward);
             anim.Repeated += () => repeatCount++;
 
-            while (anim.IsPlaying) Update((random.NextDouble() * 0.5 + 0.5) * step);
+            while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
 
             Assert.True(anim.IsCompleted);
             Assert.Equal(from, value);
