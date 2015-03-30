@@ -42,6 +42,7 @@
     <Compile Include="Interpolate.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="TimelineAnimation.cs" />
+    <Compile Include="SpringAnimation.cs" />
     <Compile Include="TweenAnimation.cs" />
     <Compile Include="IAnimatable.cs" />
     <Compile Include="IAnimation.cs" />

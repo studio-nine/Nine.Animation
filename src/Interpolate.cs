@@ -5,6 +5,8 @@ namespace Nine.Animation
     public static class Interpolate<T>
     {
         public static Func<T, T, double, T> Value { get; set; }
+
+        static Interpolate() { Interpolate.EnsureInitialize(); }
     }
 
     public static class Interpolate
@@ -74,8 +76,12 @@ namespace Nine.Animation
             return amount < 0.5f ? x : y;
         }
 
-        internal static void Initialize()
+        static bool initialized = false;
+
+        internal static void EnsureInitialize()
         {
+            if (!initialized) initialized = true;
+
             Interpolate<byte>.Value = new Func<byte, byte, double, byte>(Lerp);
             Interpolate<sbyte>.Value = new Func<sbyte, sbyte, double, sbyte>(Lerp);
             Interpolate<double>.Value = new Func<double, double, double, double>(Lerp);

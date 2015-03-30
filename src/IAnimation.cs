@@ -2,6 +2,6 @@ namespace Nine.Animation
 {
     public interface IAnimation
     {
-        bool Update(double elapsedTime);
+        bool Update(double deltaTime);
     }
 }

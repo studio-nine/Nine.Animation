@@ -32,8 +32,6 @@ namespace Nine.Animation
         public static Func<double, double> DefaultEasing { get; set; } = Nine.Animation.Easing.Sin;
         public static EaseDirection DefaultEaseDirection { get; set; } = EaseDirection.InOut;
 
-        static TweenAnimation() { Interpolate.Initialize(); }
-
         public EaseDirection EaseDirection { get; set; } = DefaultEaseDirection;
         public Func<double, double> Easing { get; set; } = DefaultEasing;
 
