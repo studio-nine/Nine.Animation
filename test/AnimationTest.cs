@@ -18,19 +18,19 @@ namespace Nine.Animation
         {
             for (var i = 0; i < iterations; i++)
             {
-            var repeat = random.Next(10) + 1;
-            var repeatCount = 0;
-            var value = random.NextDouble();
-            var to = random.NextDouble() * 100;
-            var anim = this.Tween(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
-            anim.Repeated += () => repeatCount++;
+                var repeat = random.Next(10) + 1;
+                var repeatCount = 0;
+                var value = random.NextDouble();
+                var to = random.NextDouble() * 100;
+                var anim = this.Tween(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
+                anim.Repeated += () => repeatCount++;
 
-            while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
+                while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
 
-            Assert.True(anim.IsCompleted);
-            Assert.Equal(to, value);
-            Assert.Equal(repeat - 1, repeatCount);
-        }
+                Assert.True(anim.IsCompleted);
+                Assert.Equal(to, value);
+                Assert.Equal(repeat - 1, repeatCount);
+            }
         }
 
         [Theory]
@@ -41,18 +41,19 @@ namespace Nine.Animation
         {
             for (var i = 0; i < iterations; i++)
             {
-            var repeat = random.Next(10) + 1;
-            var repeatCount = 0;
-            var value = random.NextDouble();
-            var from = random.NextDouble() * 100;
-            var anim = this.Tween(x => value = x, from, 0).SetRepeat(repeat).SetDirection(AnimationDirection.Backward);
-            anim.Repeated += () => repeatCount++;
+                var repeat = random.Next(10) + 1;
+                var repeatCount = 0;
+                var value = random.NextDouble();
+                var from = random.NextDouble() * 100;
+                var anim = this.Tween(x => value = x, from, 0).SetRepeat(repeat).SetDirection(AnimationDirection.Backward);
+                anim.Repeated += () => repeatCount++;
 
-            while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
+                while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
 
-            Assert.True(anim.IsCompleted);
-            Assert.Equal(from, value);
-            Assert.Equal(repeat - 1, repeatCount);
+                Assert.True(anim.IsCompleted);
+                Assert.Equal(from, value);
+                Assert.Equal(repeat - 1, repeatCount);
+            }
         }
 
         [Fact]
