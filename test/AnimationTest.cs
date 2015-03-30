@@ -1,32 +1,14 @@
 namespace Nine.Animation
 {
     using System;
-    using System.Threading.Tasks;
     using Xunit;
 
-    public class AnimationTest : IFrameTimer, IAnimatable
+    public class AnimationTest : FrameTimer, IAnimatable
     {
         private Random random = new Random();
         private int iterations = 10;
 
         public IFrameTimer FrameTimer => this;
-
-        public event Action<double> Tick;
-
-        public void Update(double dt) => Tick?.Invoke(dt);
-
-        [Fact]
-        public async Task unsubscribe_to_tick_when_animation_is_complete()
-        {
-            Assert.Null(Tick);
-
-            var anim = this.Tween(x => { }, 0, 1);
-            Assert.NotNull(Tick);
-            Update(double.MaxValue);
-            await anim;
-
-            Assert.Null(Tick);
-        }
 
         [Theory]
         [InlineData(10)]
@@ -36,21 +18,19 @@ namespace Nine.Animation
         {
             for (var i = 0; i < iterations; i++)
             {
-                var repeat = random.Next(10) + 1;
+            var repeat = random.Next(10) + 1;
+            var repeatCount = 0;
+            var value = random.NextDouble();
+            var to = random.NextDouble() * 100;
+            var anim = this.Tween(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
+            anim.Repeated += () => repeatCount++;
 
-                double value = random.NextDouble();
+            while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
 
-                var repeatCount = 0;
-                var to = random.NextDouble() * 100;
-                var anim = this.Tween(x => value = x, 0, to).SetRepeat(repeat).SetDuration(random.NextDouble() + 0.8);
-                anim.Repeated += () => repeatCount++;
-
-                while (anim.IsPlaying) Update((random.NextDouble() * 0.5 + 0.5) * step);
-
-                Assert.True(anim.IsCompleted);
-                Assert.Equal(to, value);
-                Assert.Equal(repeat - 1, repeatCount);
-            }
+            Assert.True(anim.IsCompleted);
+            Assert.Equal(to, value);
+            Assert.Equal(repeat - 1, repeatCount);
+        }
         }
 
         [Theory]
@@ -61,21 +41,33 @@ namespace Nine.Animation
         {
             for (var i = 0; i < iterations; i++)
             {
-                var repeat = random.Next(10) + 1;
+            var repeat = random.Next(10) + 1;
+            var repeatCount = 0;
+            var value = random.NextDouble();
+            var from = random.NextDouble() * 100;
+            var anim = this.Tween(x => value = x, from, 0).SetRepeat(repeat).SetDirection(AnimationDirection.Backward);
+            anim.Repeated += () => repeatCount++;
 
-                double value = random.NextDouble();
+            while (anim.IsPlaying) UpdateFrame((random.NextDouble() * 0.5 + 0.5) * step);
 
-                var repeatCount = 0;
-                var from = random.NextDouble() * 100;
-                var anim = this.Tween(x => value = x, from, 0).SetRepeat(repeat).SetDirection(AnimationDirection.Backward);
-                anim.Repeated += () => repeatCount++;
+            Assert.True(anim.IsCompleted);
+            Assert.Equal(from, value);
+            Assert.Equal(repeat - 1, repeatCount);
+        }
 
-                while (anim.IsPlaying) Update((random.NextDouble() * 0.5 + 0.5) * step);
+        [Fact]
+        public void aimation_is_not_played_until_delay_time_is_reached()
+        {
+            var initial = random.NextDouble();
+            var value = initial;
+            var delay = random.NextDouble() * 100;
+            this.Tween(x => value = x, random.NextDouble(), random.NextDouble()).SetDelay(delay);
 
-                Assert.True(anim.IsCompleted);
-                Assert.Equal(from, value);
-                Assert.Equal(repeat - 1, repeatCount);
-            }
+            UpdateFrame(delay - 0.0001);
+            Assert.Equal(initial, value);
+            UpdateFrame(delay);
+            Assert.NotEqual(initial, delay);
         }
     }
+}
 }

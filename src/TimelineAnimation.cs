@@ -130,16 +130,8 @@ namespace Nine.Animation
         /// </summary>
         protected abstract void Seek(double percentage, double previousPercentage);
 
-        /// <summary>
-        /// Update the animation by a specified amount of elapsed time.
-        /// Handle playing either forwards or backwards.
-        /// Determines whether animation should terminate or continue.
-        /// Signals related events.
-        /// </summary>
-        public override void Update(double dt)
+        protected override bool UpdateCore(double dt)
         {
-            if (!IsPlaying) return;
-
             var ended = false;
 
             var increment = dt * Speed;
@@ -150,11 +142,7 @@ namespace Nine.Animation
 
             var trimmedDuration = endPosition - beginPosition;
 
-            if (trimmedDuration <= 0)
-            {
-                Complete();
-                return;
-            }
+            if (trimmedDuration <= 0) return true;
 
             var totalDuration = Repeat * trimmedDuration;
 
@@ -202,10 +190,7 @@ namespace Nine.Animation
                 }
             }
 
-            if (ended)
-            {
-                Complete();
-            }
+            return ended;
         }
     }
 }
