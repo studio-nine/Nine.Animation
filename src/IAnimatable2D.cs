@@ -8,9 +8,6 @@ namespace Nine.Animation
         double ScaleX { get; set; }
         double ScaleY { get; set; }
 
-        double SpeedX { get; set; }
-        double SpeedY { get; set; }
-
         double Alpha { get; set; }
 
         /// <summary>
