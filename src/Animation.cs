@@ -29,7 +29,20 @@ namespace Nine.Animation
         /// <summary>
         /// Occurs when this animation has played to the end.
         /// </summary>
-        public event Action Completed;
+        public event Action Stopped;
+
+        /// <summary>
+        /// Stops this animation.
+        /// </summary>
+        public void Stop()
+        {
+            if (IsPlaying)
+            {
+                IsPlaying = false;
+                continuation?.Invoke();
+                Stopped?.Invoke();
+            }
+        }
 
         /// <summary>
         /// Update the animation by a specified amount of elapsed time.
@@ -48,9 +61,7 @@ namespace Nine.Animation
 
             if (UpdateCore(elapsedTime))
             {
-                IsPlaying = false;
-                continuation?.Invoke();
-                Completed?.Invoke();
+                Stop();
                 return true;
             }
 
