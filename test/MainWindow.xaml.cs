@@ -47,7 +47,7 @@
             var autoReverse = AutoReverse.IsChecked ?? false;
 
             await target.Animate()
-                        .Tween(x => target.Animate().X = x, -300, 300)
+                        .Tween(x => target.Animate().Position = new Vector2(x, 0), -300, 300)
                         .InOut().SetEasing(easing).SetRepeat(repeat).SetAutoReverse(autoReverse);
         }
     }

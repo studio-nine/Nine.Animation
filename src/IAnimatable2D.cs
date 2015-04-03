@@ -1,15 +1,17 @@
 namespace Nine.Animation
 {
+    public struct Vector2
+    {
+        public double X;
+        public double Y;
+
+        public Vector2(double x, double y) { X = x; Y = y; }
+    }
+
     public interface IAnimatable2D : IAnimatable
     {
-        double X { get; set; }
-        double Y { get; set; }
-
-        double ScaleX { get; set; }
-        double ScaleY { get; set; }
-
-        double SpeedX { get; set; }
-        double SpeedY { get; set; }
+        Vector2 Position { get; set; }
+        Vector2 Scale { get; set; }
 
         double Alpha { get; set; }
 

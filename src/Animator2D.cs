@@ -6,7 +6,6 @@ namespace Nine.Animation
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class Animator2D
     {
-        struct Vector2 { public double X; public double Y; }
         static Animator2D()
         {
             Interpolate<Vector2>.Value = (Vector2 a, Vector2 b, double t) => new Vector2
@@ -35,12 +34,12 @@ namespace Nine.Animation
         
         public static TweenAnimation MoveTo(this IAnimatable2D target, double x, double y)
         {
-            return target.Tween(a => { target.X = a.X; target.Y = a.Y; }, new Vector2 { X = target.X, Y = target.Y }, new Vector2 { X = x, Y = y });
+            return target.Tween(a => target.Position = a, target.Position, new Vector2(x, y));
         }
 
         public static TweenAnimation MoveBy(this IAnimatable2D target, double x, double y)
         {
-            return target.Tween(a => { target.X = a.X; target.Y = a.Y; }, new Vector2 { X = target.X, Y = target.Y }, new Vector2 { X = target.X + x, Y = target.Y + y });
+            return target.Tween(a => target.Position = a, target.Position, new Vector2(target.Position.X + x, target.Position.Y + y));
         }
 
         public static TweenAnimation ScaleTo(this IAnimatable2D target, double scale)
@@ -50,7 +49,7 @@ namespace Nine.Animation
 
         public static TweenAnimation ScaleTo(this IAnimatable2D target, double x, double y)
         {
-            return target.Tween(a => { target.ScaleX = a.X; target.ScaleY = a.Y; }, new Vector2 { X = target.ScaleX, Y = target.ScaleY }, new Vector2 { X = x, Y = y });
+            return target.Tween(a => target.Scale = a, target.Scale, new Vector2(x, y));
         }
 
         public static TweenAnimation ScaleBy(this IAnimatable2D target, double scale)
@@ -60,7 +59,7 @@ namespace Nine.Animation
 
         public static TweenAnimation ScaleBy(this IAnimatable2D target, double x, double y)
         {
-            return target.Tween(a => { target.ScaleX = a.X; target.ScaleY = a.Y; }, new Vector2 { X = target.ScaleX, Y = target.ScaleY }, new Vector2 { X = target.ScaleX * x, Y = target.ScaleY * y });
+            return target.Tween(a => target.Scale = a, target.Scale, new Vector2(target.Scale.X * x, target.Scale.Y * y));
         }
 
         public static TweenAnimation RotateTo(this IAnimatable2D target, double angle)

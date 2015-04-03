@@ -67,32 +67,17 @@ namespace Nine.Animation
                 set { rotate.Angle = value / Math.PI * 180; }
             }
 
-            public double X
+            public Vector2 Position
             {
-                get { return (double)translate.X; }
-                set { translate.X = value; }
+                get { return new Vector2 { X = translate.X, Y = translate.Y }; }
+                set { translate.X = value.X; translate.Y = value.Y; }
             }
 
-            public double Y
+            public Vector2 Scale
             {
-                get { return (double)translate.Y; }
-                set { translate.Y = value; }
+                get { return new Vector2 { X = scale.ScaleX, Y = scale.ScaleY }; }
+                set { scale.ScaleX = value.X; scale.ScaleY = value.Y; }
             }
-
-            public double ScaleX
-            {
-                get { return (double)scale.ScaleX; }
-                set { scale.ScaleX = value; }
-            }
-
-            public double ScaleY
-            {
-                get { return (double)scale.ScaleY; }
-                set { scale.ScaleY = value; }
-            }
-
-            public double SpeedX { get; set; }
-            public double SpeedY { get; set; }
         }
 #endif
     }
