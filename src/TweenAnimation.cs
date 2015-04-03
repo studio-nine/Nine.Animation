@@ -34,11 +34,6 @@ namespace Nine.Animation
 
         public EaseDirection EaseDirection { get; set; } = DefaultEaseDirection;
         public Func<double, double> Easing { get; set; } = DefaultEasing;
-
-        public TweenAnimation In() { this.EaseDirection = EaseDirection.In; return this; }
-        public TweenAnimation Out() { this.EaseDirection = EaseDirection.Out; return this; }
-        public TweenAnimation InOut() { this.EaseDirection = EaseDirection.InOut; return this; }
-        public TweenAnimation SetEasing(Func<double, double> value) { this.Easing = value; return this; }
     }
 
     /// <summary>
@@ -52,9 +47,7 @@ namespace Nine.Animation
 
         public Action<T> Set { get; set; }
         public Func<T, T, double, T> Interpolate { get; set; }
-
-        public TweenAnimation<T> SetInterpolate(Func<T, T, double, T> value) { this.Interpolate = value; return this; }
-
+        
         public TweenAnimation() { }
         public TweenAnimation(Action<T> set, Func<T, T, double, T> interpolate = null)
         {

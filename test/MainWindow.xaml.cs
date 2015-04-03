@@ -28,11 +28,13 @@
 
             EasingList.ItemsSource = easings.Keys;
             EasingList.SelectionChanged += (sender, e) => Animate(Ball);
-            MouseLeftButtonDown += (sender, e) =>
+            MouseLeftButtonDown += async (sender, e) =>
             {
                 // Ball.Animate().FadeTo(0.5);
                 // Ball.Animate().FadeOut();
-                 Ball.Animate().MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y);
+                await Ball.Animate()
+                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
+                          .FadeIn();
                 // Ball.Animate().RotateBy(Math.PI);
                 // Ball.Animate().SpinOnce();
                 // Ball.Animate().Spin();
@@ -44,11 +46,18 @@
         {
             var easing = easings[EasingList.SelectedItem.ToString()];
             var repeat = Repeat.IsChecked.HasValue && Repeat.IsChecked.Value ? double.MaxValue : 1;
-            var autoReverse = AutoReverse.IsChecked ?? false;
+            var yoyo = Yoyo.IsChecked ?? false;
 
-            await target.Animate()
-                        .Tween(x => target.Animate().Position = new Vector2(x, 0), -300, 300)
-                        .InOut().SetEasing(easing).SetRepeat(repeat).SetAutoReverse(autoReverse);
+            await target.Animate().Tween(
+                new TweenAnimation<double>(x => target.Animate().Position = new Vector2(x, 0))
+                {
+                    Easing = easing,
+                    Repeat = repeat,
+                    Yoyo = yoyo,
+                    EaseDirection = EaseDirection.InOut,
+                    From = -300,
+                    To = 300,
+                });
         }
     }
 }

@@ -1,5 +1,7 @@
 namespace Nine.Animation
 {
+    using System;
+
     public abstract class SpringAnimation : IAnimation
     {
         struct State { public double x, v; }
@@ -66,5 +68,10 @@ namespace Nine.Animation
         }
 
         private double Acceleration(ref State state) => Tension * (Target - state.x) - Friction * state.v;
+
+        public IAwaiter GetAwaiter()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
