@@ -36,7 +36,6 @@
 
                 // TODO: attribte override
                 await Ball.Animate(/* TODO: channel name to override animation */)
-                          .Delay(1000)
                           .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
                           .FadeIn();
                 // Ball.Animate().RotateBy(Math.PI);

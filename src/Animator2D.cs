@@ -6,11 +6,6 @@ namespace Nine.Animation
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class Animator2D
     {
-        public static Animation2DBuilder Delay(this IAnimatable2D animatable, double delay)
-        {
-            return new Animation2DBuilder(animatable, new DelayAnimation(delay));
-        }
-
         public static Animation2DBuilder Tween<T>(this IAnimatable2D animatable, TweenAnimation<T> animation)
         {
             return new Animation2DBuilder(animatable, animation);

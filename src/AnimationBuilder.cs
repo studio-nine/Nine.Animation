@@ -12,7 +12,7 @@ namespace Nine.Animation
         public AnimationBuilder(IAnimatable parent, IAnimation animation)
         {
             this.parent = parent;
-            this.parent.FrameTimer.Tick(new Func<double, bool>(dt =>
+            this.parent.FrameTimer.OnTick(new Func<double, bool>(dt =>
             {
                 var ended = animation.Update(dt);
                 if (ended)
