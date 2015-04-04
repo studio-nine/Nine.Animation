@@ -40,10 +40,12 @@
     <Compile Include="AnimationBuilder.cs" />
     <Compile Include="Animation2DBuilder.cs" />
     <Compile Include="Await.cs" />
+    <Compile Include="ConcurrentDictionary.cs" />
     <Compile Include="Interpolate.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="TimelineAnimation.cs" />
     <Compile Include="SpringAnimation.cs" />
+    <Compile Include="PropertyAccessor.cs" />
     <Compile Include="TweenAnimation.cs" />
     <Compile Include="IAnimatable.cs" />
     <Compile Include="IAnimation.cs" />

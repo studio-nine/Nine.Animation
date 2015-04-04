@@ -49,6 +49,10 @@ namespace Nine.Animation
         public Func<T, T, double, T> Interpolate { get; set; }
         
         public TweenAnimation() { }
+
+        public TweenAnimation(object target, string property, Func<T, T, double, T> interpolate = null)
+            : this(PropertyAccessor.Setter<T>(target, property)) { }
+
         public TweenAnimation(Action<T> set, Func<T, T, double, T> interpolate = null)
         {
             if (set == null) throw new ArgumentNullException(nameof(set));

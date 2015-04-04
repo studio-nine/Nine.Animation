@@ -28,6 +28,7 @@
 
             EasingList.ItemsSource = easings.Keys;
             EasingList.SelectionChanged += (sender, e) => Animate(Ball);
+
             MouseLeftButtonDown += async (sender, e) =>
             {
                 // Ball.Animate().FadeTo(0.5);
