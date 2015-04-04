@@ -5,7 +5,7 @@ namespace Nine.Animation
     /// <summary>
     /// Defines in which direction will the transition be eased.
     /// </summary>
-    public enum EaseDirection
+    public enum EaseInOut
     {
         /// <summary>
         /// Eased when transiting in.
@@ -30,9 +30,9 @@ namespace Nine.Animation
     public abstract class TweenAnimation : TimelineAnimation
     {
         public static Func<double, double> DefaultEasing { get; set; } = Nine.Animation.Easing.Sin;
-        public static EaseDirection DefaultEaseDirection { get; set; } = EaseDirection.InOut;
+        public static EaseInOut DefaultInOut { get; set; } = EaseInOut.InOut;
 
-        public EaseDirection EaseDirection { get; set; } = DefaultEaseDirection;
+        public EaseInOut InOut { get; set; } = DefaultInOut;
         public Func<double, double> Easing { get; set; } = DefaultEasing;
     }
 
@@ -69,15 +69,15 @@ namespace Nine.Animation
             if (percentage <= 0) { Set(From); return; }
             if (percentage >= 1) { Set(To); return; }
 
-            switch (EaseDirection)
+            switch (InOut)
             {
-                case EaseDirection.In:
+                case EaseInOut.In:
                     percentage = Easing(percentage);
                     break;
-                case EaseDirection.Out:
+                case EaseInOut.Out:
                     percentage = 1.0 - Easing(1.0 - percentage);
                     break;
-                case EaseDirection.InOut:
+                case EaseInOut.InOut:
                     percentage = percentage < 0.5 ?
                         Easing(percentage * 2) * 0.5 :
                         0.5 + (1.0 - Easing(1.0 - (percentage - 0.5) * 2)) * 0.5;

@@ -30,13 +30,4 @@ namespace Nine.Animation
         public void GetResult() { }
         public void OnCompleted(Action continuation) => this.continuation = continuation;
     }
-
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class Animator
-    {
-        public static AnimationBuilder Tween<T>(this IAnimatable animatable, TweenAnimation<T> animation)
-        {
-            return new AnimationBuilder(animatable, animation);
-        }
-    }
 }

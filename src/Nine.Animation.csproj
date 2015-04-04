@@ -37,6 +37,9 @@
     <DocumentationFile>bin\Release\Nine.Animation.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Animator.cs" />
+    <Compile Include="Animator2D.cs" />
+    <Compile Include="DelayAnimation.cs" />
     <Compile Include="AnimationBuilder.cs" />
     <Compile Include="Animation2DBuilder.cs" />
     <Compile Include="Await.cs" />
