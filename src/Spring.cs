@@ -1,6 +1,6 @@
 namespace Nine.Animation
 {
-    public class SpringAnimation : IAnimation
+    public class Spring : IAnimation
     {
         struct State { public double x, v; }
         struct Derivative { public double dx, dv; }
@@ -53,8 +53,8 @@ namespace Nine.Animation
             var dxdt = 1.0 / 6.0 * (a.dx + 2.0 * (b.dx + c.dx) + d.dx);
             var dvdt = 1.0 / 6.0 * (a.dv + 2.0 * (b.dv + c.dv) + d.dv);
 
-            state.x += + dxdt * dt;
-            state.v += + dvdt * dt;
+            state.x += dxdt * dt;
+            state.v += dvdt * dt;
         }
 
         private Derivative Evaluate(ref State initial, ref Derivative d, double dt)

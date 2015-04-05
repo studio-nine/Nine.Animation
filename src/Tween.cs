@@ -27,7 +27,7 @@ namespace Nine.Animation
     /// Implements a basic primitive animation that changes its value over time.
     /// Can also update the value of a named target property on an target object.
     /// </summary>
-    public abstract class TweenAnimation : TimelineAnimation
+    public abstract class Tween : Timeline
     {
         public static Func<double, double> DefaultEasing { get; set; } = Nine.Animation.Ease.Sin;
         public static EaseInOut DefaultInOut { get; set; } = EaseInOut.InOut;
@@ -40,7 +40,7 @@ namespace Nine.Animation
     /// Implements a basic primitive animation that changes its value over time.
     /// Can also update the value of a named target property on an target object.
     /// </summary>
-    public class TweenAnimation<T> : TweenAnimation
+    public class Tween<T> : Tween
     {
         public T From { get; set; }
         public T To { get; set; }
@@ -48,12 +48,12 @@ namespace Nine.Animation
         public Action<T> Set { get; set; }
         public Func<T, T, double, T> Interpolate { get; set; }
         
-        public TweenAnimation() { }
+        public Tween() { }
 
-        public TweenAnimation(object target, string property, Func<T, T, double, T> interpolate = null)
+        public Tween(object target, string property, Func<T, T, double, T> interpolate = null)
             : this(PropertyAccessor.Setter<T>(target, property)) { }
 
-        public TweenAnimation(Action<T> set, Func<T, T, double, T> interpolate = null)
+        public Tween(Action<T> set, Func<T, T, double, T> interpolate = null)
         {
             if (set == null) throw new ArgumentNullException(nameof(set));
             

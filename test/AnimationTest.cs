@@ -20,7 +20,7 @@ namespace Nine.Animation
                 var repeatCount = 0;
                 var value = random.NextDouble();
                 var to = random.NextDouble() * 100;
-                var anim = new TweenAnimation<double>(x => value = x)
+                var anim = new Tween<double>(x => value = x)
                 {
                     From = 0,
                     To = to,
@@ -48,7 +48,7 @@ namespace Nine.Animation
                 var repeatCount = 0;
                 var value = random.NextDouble();
                 var from = random.NextDouble() * 100;
-                var anim = new TweenAnimation<double>(x => value = x)
+                var anim = new Tween<double>(x => value = x)
                 {
                     From = from,
                     To = 0,

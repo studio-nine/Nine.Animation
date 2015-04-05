@@ -43,12 +43,14 @@
     <Compile Include="Animation2DBuilder.cs" />
     <Compile Include="Await.cs" />
     <Compile Include="ConcurrentDictionary.cs" />
+    <Compile Include="Vector2.cs" />
     <Compile Include="Interpolate.cs" />
     <Compile Include="Animation.cs" />
-    <Compile Include="TimelineAnimation.cs" />
-    <Compile Include="SpringAnimation.cs" />
+    <Compile Include="Spring2D.cs" />
+    <Compile Include="Timeline.cs" />
+    <Compile Include="Spring.cs" />
     <Compile Include="PropertyAccessor.cs" />
-    <Compile Include="TweenAnimation.cs" />
+    <Compile Include="Tween.cs" />
     <Compile Include="IAnimatable.cs" />
     <Compile Include="IAnimation.cs" />
     <Compile Include="PortableFrameTimer.cs" />

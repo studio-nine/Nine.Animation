@@ -5,7 +5,7 @@ namespace Nine.Animation
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static class Animator
     {
-        public static AnimationBuilder Tween<T>(this IAnimatable animatable, TweenAnimation<T> animation)
+        public static AnimationBuilder Tween<T>(this IAnimatable animatable, Tween<T> animation)
         {
             return new AnimationBuilder(animatable, animation);
         }

@@ -34,6 +34,7 @@
                 // Ball.Animate().FadeTo(0.5);
                 // Ball.Animate().FadeOut();
 
+                // TODO: stagger ???
                 // TODO: attribte override
                 // TODO: AnimateSmooth
                 await Ball.Animate(/* TODO: channel name to override animation */)
@@ -46,7 +47,7 @@
                 // Ball.Animate().ScaleBy(1.5, 2.0);
             };
 
-            var spring = new SpringAnimation();
+            var spring = new Spring();
 
             MouseMove += (sender, e) =>
             {
@@ -61,7 +62,7 @@
             var yoyo = Yoyo.IsChecked ?? false;
 
             await target.Animate().Tween(
-                new TweenAnimation<double>(x => target.Animate().Position = new Vector2(x, 0))
+                new Tween<double>(x => target.Animate().Position = new Vector2(x, 0))
                 {
                     Ease = easing,
                     Repeat = repeat,

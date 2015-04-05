@@ -22,7 +22,7 @@ namespace Nine.Animation
     /// <summary>
     /// Basic class for all timeline based animations.
     /// </summary>
-    public abstract class TimelineAnimation : Animation
+    public abstract class Timeline : Animation
     {
         private double elapsedTime;
 
@@ -34,12 +34,12 @@ namespace Nine.Animation
         public static double DefaultDuration { get; set; } = 1000;
 
         /// <summary>
-        /// Gets or sets the time at which this <see cref="TimelineAnimation"/> should begin.
+        /// Gets or sets the time at which this <see cref="Timeline"/> should begin.
         /// </summary>
         public double? BeginTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the time at which this <see cref="TimelineAnimation"/> should end.
+        /// Gets or sets the time at which this <see cref="Timeline"/> should end.
         /// </summary>
         public double? EndTime { get; set; }
 
