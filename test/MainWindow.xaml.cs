@@ -9,17 +9,17 @@
     {
         private readonly Dictionary<string, Func<double, double>> easings = new Dictionary<string, Func<double, double>>
         {
-            { nameof(Ease.Linear), new Func<double, double>(Ease.Linear) },
-            { nameof(Ease.Quad), new Func<double, double>(Ease.Quad) },
-            { nameof(Ease.Cubic), new Func<double, double>(Ease.Cubic) },
-            { nameof(Ease.Quart), new Func<double, double>(Ease.Quart) },
-            { nameof(Ease.Quint), new Func<double, double>(Ease.Quint) },
-            { nameof(Ease.Sin), new Func<double, double>(Ease.Sin) },
-            { nameof(Ease.Circular), new Func<double, double>(Ease.Circular) },
-            { nameof(Ease.Exp), new Func<double, double>(Ease.Exp) },
-            { nameof(Ease.Back), new Func<double, double>(Ease.Back) },
-            { nameof(Ease.Bounce), new Func<double, double>(Ease.Bounce) },
-            { nameof(Ease.Elastic), new Func<double, double>(Ease.Elastic) },
+            { nameof(Ease.Linear), Ease.Linear },
+            { nameof(Ease.Quad), Ease.Quad },
+            { nameof(Ease.Cubic), Ease.Cubic },
+            { nameof(Ease.Quart), Ease.Quart },
+            { nameof(Ease.Quint), Ease.Quint },
+            { nameof(Ease.Sin), Ease.Sin },
+            { nameof(Ease.Circular), Ease.Circular },
+            { nameof(Ease.Exp), Ease.Exp },
+            { nameof(Ease.Back), Ease.Back },
+            { nameof(Ease.Bounce), Ease.Bounce },
+            { nameof(Ease.Elastic), Ease.Elastic },
         };
 
         public MainWindow()
