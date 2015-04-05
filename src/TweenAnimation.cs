@@ -29,11 +29,11 @@ namespace Nine.Animation
     /// </summary>
     public abstract class TweenAnimation : TimelineAnimation
     {
-        public static Func<double, double> DefaultEasing { get; set; } = Nine.Animation.Easing.Sin;
+        public static Func<double, double> DefaultEasing { get; set; } = Nine.Animation.Ease.Sin;
         public static EaseInOut DefaultInOut { get; set; } = EaseInOut.InOut;
 
         public EaseInOut InOut { get; set; } = DefaultInOut;
-        public Func<double, double> Easing { get; set; } = DefaultEasing;
+        public Func<double, double> Ease { get; set; } = DefaultEasing;
     }
 
     /// <summary>
@@ -72,15 +72,15 @@ namespace Nine.Animation
             switch (InOut)
             {
                 case EaseInOut.In:
-                    percentage = Easing(percentage);
+                    percentage = Ease(percentage);
                     break;
                 case EaseInOut.Out:
-                    percentage = 1.0 - Easing(1.0 - percentage);
+                    percentage = 1.0 - Ease(1.0 - percentage);
                     break;
                 case EaseInOut.InOut:
                     percentage = percentage < 0.5 ?
-                        Easing(percentage * 2) * 0.5 :
-                        0.5 + (1.0 - Easing(1.0 - (percentage - 0.5) * 2)) * 0.5;
+                        Ease(percentage * 2) * 0.5 :
+                        0.5 + (1.0 - Ease(1.0 - (percentage - 0.5) * 2)) * 0.5;
                     break;
             }
 

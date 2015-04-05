@@ -2,7 +2,6 @@ namespace Nine.Animation
 {
     using System;
     using System.ComponentModel;
-    using System.Diagnostics;
 #if WPF
     using System.Windows;
     using System.Windows.Media;
@@ -14,7 +13,7 @@ namespace Nine.Animation
 #if WPF
         private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(IAnimatable2D), typeof(AnimatableExtensions));
 
-        public static IAnimatable2D Animate(this FrameworkElement element)
+        public static IAnimatable2D Animate(this FrameworkElement element, object channel = null)
         {
             var result = (IAnimatable2D)element.GetValue(animatableProperty);
             if (result != null) return result;

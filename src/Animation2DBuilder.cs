@@ -1,6 +1,5 @@
 namespace Nine.Animation
 {
-    using System;
     using System.ComponentModel;
 
     [EditorBrowsable(EditorBrowsableState.Never)]

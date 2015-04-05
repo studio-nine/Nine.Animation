@@ -1,8 +1,6 @@
 namespace Nine.Animation
 {
-    using System;
-
-    public abstract class SpringAnimation : IAnimation
+    public class SpringAnimation : IAnimation
     {
         struct State { public double x, v; }
         struct Derivative { public double dx, dv; }
@@ -18,6 +16,7 @@ namespace Nine.Animation
         public double Friction { get; set; } = DefaultFriction;
 
         public double Target { get; set; }
+
         public double Value
         {
             get { return state.x; }
@@ -25,9 +24,6 @@ namespace Nine.Animation
         }
 
         public bool IsActive { get; private set; }
-
-        public SpringAnimation SetTension(double value) { this.Tension = value; return this; }
-        public SpringAnimation SetFriction(double value) { this.Friction = value; return this; }
 
         public virtual bool Update(double deltaTime)
         {
@@ -68,10 +64,5 @@ namespace Nine.Animation
         }
 
         private double Acceleration(ref State state) => Tension * (Target - state.x) - Friction * state.v;
-
-        public IAwaiter GetAwaiter()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

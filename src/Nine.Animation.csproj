@@ -53,7 +53,7 @@
     <Compile Include="IAnimation.cs" />
     <Compile Include="PortableFrameTimer.cs" />
     <Compile Include="IFrameTimer.cs" />
-    <Compile Include="Easing.cs" />
+    <Compile Include="Ease.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IAnimatable2D.cs" />
   </ItemGroup>

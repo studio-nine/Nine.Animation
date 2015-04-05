@@ -9,17 +9,17 @@
     {
         private readonly Dictionary<string, Func<double, double>> easings = new Dictionary<string, Func<double, double>>
         {
-            { nameof(Easing.Linear), new Func<double, double>(Easing.Linear) },
-            { nameof(Easing.Quad), new Func<double, double>(Easing.Quad) },
-            { nameof(Easing.Cubic), new Func<double, double>(Easing.Cubic) },
-            { nameof(Easing.Quart), new Func<double, double>(Easing.Quart) },
-            { nameof(Easing.Quint), new Func<double, double>(Easing.Quint) },
-            { nameof(Easing.Sin), new Func<double, double>(Easing.Sin) },
-            { nameof(Easing.Circular), new Func<double, double>(Easing.Circular) },
-            { nameof(Easing.Exp), new Func<double, double>(Easing.Exp) },
-            { nameof(Easing.Back), new Func<double, double>(Easing.Back) },
-            { nameof(Easing.Bounce), new Func<double, double>(Easing.Bounce) },
-            { nameof(Easing.Elastic), new Func<double, double>(Easing.Elastic) },
+            { nameof(Ease.Linear), new Func<double, double>(Ease.Linear) },
+            { nameof(Ease.Quad), new Func<double, double>(Ease.Quad) },
+            { nameof(Ease.Cubic), new Func<double, double>(Ease.Cubic) },
+            { nameof(Ease.Quart), new Func<double, double>(Ease.Quart) },
+            { nameof(Ease.Quint), new Func<double, double>(Ease.Quint) },
+            { nameof(Ease.Sin), new Func<double, double>(Ease.Sin) },
+            { nameof(Ease.Circular), new Func<double, double>(Ease.Circular) },
+            { nameof(Ease.Exp), new Func<double, double>(Ease.Exp) },
+            { nameof(Ease.Back), new Func<double, double>(Ease.Back) },
+            { nameof(Ease.Bounce), new Func<double, double>(Ease.Bounce) },
+            { nameof(Ease.Elastic), new Func<double, double>(Ease.Elastic) },
         };
 
         public MainWindow()
@@ -35,13 +35,22 @@
                 // Ball.Animate().FadeOut();
 
                 // TODO: attribte override
+                // TODO: AnimateSmooth
                 await Ball.Animate(/* TODO: channel name to override animation */)
-                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
+                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y) // TODO: Delay
                           .FadeIn();
+
                 // Ball.Animate().RotateBy(Math.PI);
                 // Ball.Animate().SpinOnce();
                 // Ball.Animate().Spin();
                 // Ball.Animate().ScaleBy(1.5, 2.0);
+            };
+
+            var spring = new SpringAnimation();
+
+            MouseMove += (sender, e) =>
+            {
+                // spring
             };
         }
 
@@ -54,10 +63,9 @@
             await target.Animate().Tween(
                 new TweenAnimation<double>(x => target.Animate().Position = new Vector2(x, 0))
                 {
-                    Easing = easing,
+                    Ease = easing,
                     Repeat = repeat,
                     Yoyo = yoyo,
-                    InOut = EaseInOut.InOut,
                     From = -300,
                     To = 300,
                 });

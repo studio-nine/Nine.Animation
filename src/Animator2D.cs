@@ -18,7 +18,7 @@ namespace Nine.Animation
             {
                 From = target.Alpha, To = to,
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -30,7 +30,7 @@ namespace Nine.Animation
             {
                 From = 0.0, To = 1.0,
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -42,7 +42,7 @@ namespace Nine.Animation
             {
                 From = 1.0, To = 0.0,
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -54,7 +54,7 @@ namespace Nine.Animation
             {
                 From = target.Position, To = new Vector2(x, y),
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -67,7 +67,7 @@ namespace Nine.Animation
                 From = target.Position,
                 To = new Vector2(target.Position.X + x, target.Position.Y + y),
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -85,7 +85,7 @@ namespace Nine.Animation
             {
                 From = target.Scale, To = new Vector2(x, y),
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -104,7 +104,7 @@ namespace Nine.Animation
                 From = target.Scale,
                 To = new Vector2(target.Scale.X * x, target.Scale.Y * y),
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -116,7 +116,7 @@ namespace Nine.Animation
             {
                 From = target.Rotation, To = angle,
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -129,7 +129,7 @@ namespace Nine.Animation
                 From = target.Rotation,
                 To = target.Rotation + angle,
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -142,7 +142,7 @@ namespace Nine.Animation
                 From = target.Rotation,
                 To = target.Rotation + Math.PI * 2,
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
             });
         }
@@ -155,7 +155,7 @@ namespace Nine.Animation
                 From = target.Rotation,
                 To = target.Rotation + Math.PI * 2,
                 Duration = duration ?? TimelineAnimation.DefaultDuration,
-                Easing = easing ?? TweenAnimation.DefaultEasing,
+                Ease = easing ?? TweenAnimation.DefaultEasing,
                 InOut = inout ?? TweenAnimation.DefaultInOut,
                 Repeat = times,
                 Yoyo = yoyo,

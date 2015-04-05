@@ -37,10 +37,12 @@ namespace Nine.Animation
         {
             if (!IsPlaying) return true;
 
-            elapsedTime += deltaTime;
-            deltaTime = (elapsedTime - Delay);
-
-            if (deltaTime < 0) return false;
+            if (elapsedTime < Delay)
+            {
+                elapsedTime += deltaTime;
+                if (elapsedTime < Delay) return false;
+                deltaTime = (elapsedTime - Delay);
+            }
 
             if (UpdateCore(deltaTime))
             {
