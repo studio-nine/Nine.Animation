@@ -1,5 +1,7 @@
 namespace Nine.Animation
 {
+    using System;
+
     public class Spring : IAnimation
     {
         struct State { public double x, v; }
@@ -64,5 +66,15 @@ namespace Nine.Animation
         }
 
         private double Acceleration(ref State state) => Tension * (Target - state.x) - Friction * state.v;
+
+        public void InheritFrom(IAnimation other)
+        {
+            var spring = other as Spring;
+            if (spring != null)
+            {
+                Tension = spring.Tension;
+                Friction = spring.Friction;
+            }
+        }
     }
 }

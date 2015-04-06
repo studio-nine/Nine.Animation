@@ -9,8 +9,10 @@ namespace Nine.Animation
         public TweenBuilder2D(IAnimatable2D target) : base(target) { }
         public TweenBuilder2D(TweenBuilder2D builder, IAnimation animation) : base(builder, animation) { }
 
+        public new TweenBuilder2D Inherit(bool value = true) => (TweenBuilder2D)base.Inherit(value);
         public new TweenBuilder2D Duration(double value) => (TweenBuilder2D)base.Duration(value);
         public new TweenBuilder2D Delay(double value) => (TweenBuilder2D)base.Delay(value);
+        public new TweenBuilder2D Speed(double value) => (TweenBuilder2D)base.Speed(value);
         public new TweenBuilder2D Repeat(double value) => (TweenBuilder2D)base.Repeat(value);
         public new TweenBuilder2D RepeatForever() => (TweenBuilder2D)base.RepeatForever();
         public new TweenBuilder2D Yoyo(bool value = true) => (TweenBuilder2D)base.Yoyo(value);

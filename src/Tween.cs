@@ -34,6 +34,18 @@ namespace Nine.Animation
 
         public EaseInOut InOut { get; set; } = DefaultInOut;
         public static EaseInOut DefaultInOut { get; set; } = EaseInOut.InOut;
+
+        public override void InheritFrom(IAnimation other)
+        {
+            base.InheritFrom(other);
+
+            var anim = other as Tween;
+            if (anim != null)
+            {
+                InOut = anim.InOut;
+                Ease = anim.Ease;
+            }
+        }
     }
 
     /// <summary>

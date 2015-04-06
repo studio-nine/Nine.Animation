@@ -11,14 +11,13 @@ namespace Nine.Animation
     static class AnimatableExtensions
     {
 #if WPF
-        private static readonly DependencyProperty tweenBuilder2DProperty = DependencyProperty.RegisterAttached("TweenBuilder2D", typeof(TweenBuilder2D), typeof(AnimatableExtensions));
+        private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(IAnimatable2D), typeof(AnimatableExtensions));
 
         public static TweenBuilder2D Tween(this FrameworkElement element, object channel = null)
         {
-            var result = (TweenBuilder2D)element.GetValue(tweenBuilder2DProperty);
-            if (result != null) return result;
-            element.SetValue(tweenBuilder2DProperty, result = new TweenBuilder2D(new FrameworkElementAnimatable(element)));
-            return result;
+            var result = (IAnimatable2D)element.GetValue(animatableProperty);
+            if (result == null) element.SetValue(animatableProperty, result = new FrameworkElementAnimatable(element));
+            return new TweenBuilder2D(result);
         }
 
         class DispatchFrameTimer : FrameTimer

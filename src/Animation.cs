@@ -43,6 +43,7 @@ namespace Nine.Animation
                 elapsedTime += deltaTime;
                 if (elapsedTime < Delay) return false;
                 deltaTime = (elapsedTime - Delay);
+                Started?.Invoke();
             }
 
             if (UpdateCore(deltaTime))
@@ -66,5 +67,14 @@ namespace Nine.Animation
         public IAwaiter GetAwaiter() => this;
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void OnCompleted(Action continuation) => this.continuation = continuation;
+
+        public virtual void InheritFrom(IAnimation other)
+        {
+            var anim = other as Animation;
+            if (anim != null)
+            {
+                Delay = anim.Delay;
+            }
+        }
     }
 }

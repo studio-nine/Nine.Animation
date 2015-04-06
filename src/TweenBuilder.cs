@@ -8,17 +8,27 @@ namespace Nine.Animation
         private readonly IAnimatable target;
         private readonly IAnimation animation;
         private Action continuation;
-
+        private bool inherit = true;
+        
         public IAnimatable Target => target;
 
         public TweenBuilder(IAnimatable target)
         {
-            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (target == null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
             this.target = target;
+            this.animation = new Tween<double>();
         }
 
-        public TweenBuilder(TweenBuilder builder, IAnimation animation)
+        public TweenBuilder(TweenBuilder builder, IAnimation animation, bool inherit = true)
         {
+            if (builder.animation != null && builder.inherit && inherit)
+            {
+                animation.InheritFrom(builder.animation);
+            }
+
             this.animation = animation;
             this.target = builder.target;
             this.target.FrameTimer.OnTick(new Func<double, bool>(dt =>
@@ -42,6 +52,12 @@ namespace Nine.Animation
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void OnCompleted(Action continuation) => this.continuation = continuation;
 
+        public TweenBuilder Inherit(bool value = true)
+        {
+            this.inherit = value;
+            return this;
+        }
+
         public TweenBuilder Duration(double value)
         {
             var anim = animation as Timeline;
@@ -53,6 +69,13 @@ namespace Nine.Animation
         {
             var anim = animation as Timeline;
             if (anim != null) anim.Delay = value;
+            return this;
+        }
+
+        public TweenBuilder Speed(double value)
+        {
+            var anim = animation as Timeline;
+            if (anim != null) anim.Speed = value;
             return this;
         }
 

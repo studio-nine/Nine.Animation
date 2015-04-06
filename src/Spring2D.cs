@@ -64,5 +64,15 @@ namespace Nine.Animation
         }
 
         private Vector2 Acceleration(ref State state) => Tension * (Target - state.x) - Friction * state.v;
+
+        public void InheritFrom(IAnimation other)
+        {
+            var spring = other as Spring;
+            if (spring != null)
+            {
+                Tension = spring.Tension;
+                Friction = spring.Friction;
+            }
+        }
     }
 }

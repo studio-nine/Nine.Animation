@@ -38,9 +38,10 @@
                 // TODO: stagger ???
                 // TODO: attribte override
                 // TODO: AnimateSmooth
-                await Ball.Tween(/* TODO: channel name to override animation */)
-                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y).Delay(1000)
-                          .FadeIn().Out();
+                // TODO: channel name to override animation
+                await Ball.Tween().Duration(500).Delay(1000).InOut()
+                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
+                          .FadeIn().OnStart(() => Title += "+");
 
                 // Ball.Tween().RotateBy(Math.PI);
                 // Ball.Tween().SpinOnce();

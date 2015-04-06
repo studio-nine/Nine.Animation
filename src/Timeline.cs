@@ -137,5 +137,22 @@ namespace Nine.Animation
 
             return ended;
         }
+
+        public override void InheritFrom(IAnimation other)
+        {
+            base.InheritFrom(other);
+
+            var anim = other as Timeline;
+            if (anim != null)
+            {
+                Duration = anim.Duration;
+                Forward = anim.Forward;
+                BeginTime = anim.BeginTime;
+                EndTime = anim.EndTime;
+                Repeat = anim.Repeat;
+                Speed = anim.Speed;
+                Yoyo = anim.Yoyo;
+            }
+        }
     }
 }
