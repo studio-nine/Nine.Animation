@@ -117,7 +117,7 @@ namespace Nine.Animation
 
             var totalDuration = Repeat * trimmedDuration;
 
-            var previousRepeat = Floor(elapsedTime / trimmedDuration);
+            var previousRepeat = Min(Floor(elapsedTime / trimmedDuration), Repeat - 1);
 
             elapsedTime += increment;
 
@@ -127,12 +127,7 @@ namespace Nine.Animation
                 elapsedTime = totalDuration;
             }
 
-            var nextRepeat = Floor(elapsedTime / trimmedDuration);
-
-            if (ended)
-            {
-                nextRepeat--; // Do not raise repeat event when the end is reached.
-            }
+            var nextRepeat = Min(Floor(elapsedTime / trimmedDuration), Repeat - 1);
 
             var nextPosition = elapsedTime - nextRepeat * trimmedDuration;
 
