@@ -37,10 +37,9 @@
     <DocumentationFile>bin\Release\Nine.Animation.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Animator.cs" />
-    <Compile Include="Animator2D.cs" />
-    <Compile Include="AnimationBuilder.cs" />
-    <Compile Include="Animation2DBuilder.cs" />
+    <Compile Include="TweenBuilder2DExtensions.cs" />
+    <Compile Include="TweenBuilder.cs" />
+    <Compile Include="TweenBuilder2D.cs" />
     <Compile Include="Await.cs" />
     <Compile Include="ConcurrentDictionary.cs" />
     <Compile Include="Vector2.cs" />

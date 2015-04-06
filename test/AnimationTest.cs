@@ -54,7 +54,7 @@ namespace Nine.Animation
                     To = 0,
                     Repeat = repeat,
                     Duration = random.NextDouble() + 0.8,
-                    Direction = AnimationDirection.Backward,
+                    Forward = false,
                 };
                 anim.Repeated += () => repeatCount++;
 

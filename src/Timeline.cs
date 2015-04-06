@@ -4,22 +4,6 @@ namespace Nine.Animation
     using static System.Math;
 
     /// <summary>
-    /// Defines whether the animation is playing forward or backward.
-    /// </summary>
-    public enum AnimationDirection
-    {
-        /// <summary>
-        /// The animation is playing forward.
-        /// </summary>
-        Forward,
-
-        /// <summary>
-        /// The animation is playing backward.
-        /// </summary>
-        Backward,
-    }
-
-    /// <summary>
     /// Basic class for all timeline based animations.
     /// </summary>
     public abstract class Timeline : Animation
@@ -66,12 +50,7 @@ namespace Nine.Animation
         /// Gets or set whether the animation is currently playing forward or backward.
         /// Takes effect on an animation that is playing or paused.
         /// </summary>
-        public AnimationDirection Direction
-        {
-            get { return reverse ? AnimationDirection.Backward : AnimationDirection.Forward; }
-            set { reverse = (value == AnimationDirection.Backward); }
-        }
-        private bool reverse;
+        public bool Forward { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the number of times this animation will be played.
@@ -131,7 +110,7 @@ namespace Nine.Animation
 
             var nextPosition = elapsedTime - nextRepeat * trimmedDuration;
 
-            var isReversed = (Yoyo && nextRepeat % 2 == 1 ? !reverse : reverse);
+            var isReversed = (Yoyo && nextRepeat % 2 == 1 ? Forward : !Forward);
 
             var previousPosition = Position;
 

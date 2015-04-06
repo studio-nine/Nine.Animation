@@ -31,20 +31,21 @@
 
             MouseLeftButtonDown += async (sender, e) =>
             {
-                // Ball.Animate().FadeTo(0.5);
-                // Ball.Animate().FadeOut();
+                // Ball.Tween().FadeTo(0.5);
+                // Ball.Tween().FadeOut();
 
+                // TODO: animation multiple targets
                 // TODO: stagger ???
                 // TODO: attribte override
                 // TODO: AnimateSmooth
-                await Ball.Animate(/* TODO: channel name to override animation */)
-                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y) // TODO: Delay
+                await Ball.Tween(/* TODO: channel name to override animation */)
+                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y).Delay(1000)
                           .FadeIn();
 
-                // Ball.Animate().RotateBy(Math.PI);
-                // Ball.Animate().SpinOnce();
-                // Ball.Animate().Spin();
-                // Ball.Animate().ScaleBy(1.5, 2.0);
+                // Ball.Tween().RotateBy(Math.PI);
+                // Ball.Tween().SpinOnce();
+                // Ball.Tween().Spin();
+                // Ball.Tween().ScaleBy(1.5, 2.0);
             };
 
             var spring = new Spring();
@@ -61,8 +62,8 @@
             var repeat = Repeat.IsChecked.HasValue && Repeat.IsChecked.Value ? double.MaxValue : 1;
             var yoyo = Yoyo.IsChecked ?? false;
 
-            await target.Animate().Tween(
-                new Tween<double>(x => target.Animate().Position = new Vector2(x, 0))
+            await target.Tween().Tween(
+                new Tween<double>(x => target.Tween().Target.Position = new Vector2(x, 0))
                 {
                     Ease = easing,
                     Repeat = repeat,

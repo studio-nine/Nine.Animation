@@ -1,7 +1,8 @@
 namespace Nine.Animation
 {
     using System;
-    
+    using System.ComponentModel;
+
     public abstract class Animation : IAnimation, IAwaitable, IAwaiter
     {
         private Action continuation;
@@ -57,9 +58,13 @@ namespace Nine.Animation
 
         protected abstract bool UpdateCore(double deltaTime);
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsCompleted => !IsPlaying;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void GetResult() { }
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public IAwaiter GetAwaiter() => this;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void OnCompleted(Action continuation) => this.continuation = continuation;
     }
 }
