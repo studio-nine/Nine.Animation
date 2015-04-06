@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using Nine.Animation;
 
     public partial class MainWindow : Window
@@ -36,12 +37,13 @@
                 // Ball.Tween().FadeOut();
 
                 // TODO: animation multiple targets
-                // TODO: AnimateSmooth
+                // TODO: smooth tween using Spring
                 await Ball.Tween().Duration(1000).Delay(200)
                           .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
-                          .FadeIn().OnStart(() => Title += "+").RepeatForever().Yoyo();
+                          .FadeIn().OnStart(() => Title += "+");
 
                 // await EasingList.Items.Cast<FrameworkElement>().Tween(100).FadeIn();
+                EasingList.TweenAll(t => t.FadeIn(), 100);
 
                 // Ball.Tween().RotateBy(Math.PI);
                 // Ball.Tween().SpinOnce();
@@ -50,10 +52,16 @@
             };
 
             var spring = new Spring();
+            Ball.GetAnimatable().FrameTimer.OnTick(dt =>
+            {
+                spring.Update(dt);
+                // Ball.GetAnimatable().Position = new Vector2(spring.Value, 0);
+                return false;
+            });
 
             MouseMove += (sender, e) =>
             {
-                // spring
+                // spring.Target = e.GetPosition(this).X;
             };
         }
 

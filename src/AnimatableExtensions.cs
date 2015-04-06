@@ -2,9 +2,11 @@ namespace Nine.Animation
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.ComponentModel;
 #if WPF
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Media;
 #endif
 
@@ -30,6 +32,24 @@ namespace Nine.Animation
             var anim = (FrameworkElementAnimatable)GetAnimatable(element, channel);
             anim.FrameTimer.Clear();
             return new TweenBuilder2D(anim);
+        }
+
+        public static void TweenAll(this ItemsControl items, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        {
+            double delay = 0.0;
+            foreach (var element in Enumerable.Range(0, items.Items.Count).Select(i => items.ItemContainerGenerator.ContainerFromIndex(i)).OfType<FrameworkElement>())
+            {
+                builder(Tween(element, channel).Delay(delay += stagger));
+            }
+        }
+
+        public static void TweenAll(this Panel panel, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        {
+            double delay = 0.0;
+            foreach (var element in panel.Children.OfType<FrameworkElement>())
+            {
+                builder(Tween(element, channel).Delay(delay += stagger));
+            }
         }
 
         class DispatchFrameTimer : FrameTimer

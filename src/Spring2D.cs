@@ -20,10 +20,10 @@ namespace Nine.Animation
         public Vector2 Value
         {
             get { return state.x; }
-            set { state.x = value; state.v = Vector2.Zero; }
+            set { state.x = value; state.v = Vector2.Zero; IsActive = true; }
         }
 
-        public bool IsActive { get; private set; }
+        public bool IsActive { get; private set; } = true;
 
         public virtual bool Update(double deltaTime)
         {

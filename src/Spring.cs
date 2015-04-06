@@ -1,7 +1,5 @@
 namespace Nine.Animation
 {
-    using System;
-
     public class Spring : IAnimation
     {
         struct State { public double x, v; }
@@ -22,10 +20,10 @@ namespace Nine.Animation
         public double Value
         {
             get { return state.x; }
-            set { state.x = value; state.v = 0.0; }
+            set { state.x = value; state.v = 0.0; IsActive = true; }
         }
 
-        public bool IsActive { get; private set; }
+        public bool IsActive { get; private set; } = true;
 
         public virtual bool Update(double deltaTime)
         {
