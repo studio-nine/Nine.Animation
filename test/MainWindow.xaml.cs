@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
     using Nine.Animation;
 
@@ -35,12 +36,12 @@
                 // Ball.Tween().FadeOut();
 
                 // TODO: animation multiple targets
-                // TODO: stagger ???
                 // TODO: AnimateSmooth
-                // TODO: channel name to override animation
-                await Ball.Tween().Duration(500).Delay(1000).InOut()
+                await Ball.Tween().Duration(1000).Delay(200)
                           .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
-                          .FadeIn().OnStart(() => Title += "+");
+                          .FadeIn().OnStart(() => Title += "+").RepeatForever().Yoyo();
+
+                // await EasingList.Items.Cast<FrameworkElement>().Tween(100).FadeIn();
 
                 // Ball.Tween().RotateBy(Math.PI);
                 // Ball.Tween().SpinOnce();
@@ -63,7 +64,7 @@
             var yoyo = Yoyo.IsChecked ?? false;
 
             await target.Tween().To(
-                new Tween<double>(x => target.Tween().Target.Position = new Vector2(x, 0))
+                new Tween<double>(x => target.GetAnimatable().Position = new Vector2(x, 0))
                 {
                     Ease = easing,
                     Repeat = repeat,

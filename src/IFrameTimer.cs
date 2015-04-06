@@ -13,16 +13,33 @@ namespace Nine.Animation
 
     public abstract class FrameTimer : IFrameTimer
     {
+        private bool updating = false;
+        private bool needsClear = false;
         private readonly Stopwatch watch = new Stopwatch();
         private readonly List<Func<double, bool>> listeners = new List<Func<double, bool>>();
 
         public virtual void OnTick(Func<double, bool> listener)
         {
-            if (listeners == null) throw new ArgumentNullException(nameof(listener));
+            if (listeners == null)
+            {
+                throw new ArgumentNullException(nameof(listener));
+            }
             listeners.Add(listener);
         }
 
-        protected void UpdateFrame(double? elapsedTime = null)
+        public virtual void Clear()
+        {
+            if (updating)
+            {
+                needsClear = true;
+            }
+            else
+            {
+                listeners.Clear();
+            }
+        }
+
+        public virtual void UpdateFrame(double? elapsedTime = null)
         {
             var dt = 0.0;
 
@@ -38,15 +55,28 @@ namespace Nine.Animation
 
             dt = elapsedTime ?? dt;
 
-            for (var i = 0; i < listeners.Count;)
+            try
             {
-                if (listeners[i](dt))
+                updating = true;
+                for (var i = 0; i < listeners.Count;)
                 {
-                    listeners.RemoveAt(i);
+                    var listener = listeners[i];
+                    if (listener(dt))
+                    {
+                        listeners.RemoveAt(i);
+                    }
+                    else
+                    {
+                        i++;
+                    }
                 }
-                else
+            }
+            finally
+            {
+                updating = false;
+                if (needsClear)
                 {
-                    i++;
+                    listeners.Clear();
                 }
             }
         }

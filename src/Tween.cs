@@ -61,20 +61,16 @@ namespace Nine.Animation
         public Func<T, T, double, T> Interpolate { get; set; }
         
         public Tween() { }
-        public Tween(object target, string property, Func<T, T, double, T> interpolate = null)
-            : this(PropertyAccessor.Setter<T>(target, property))
+        public Tween(object target, string property) : this(PropertyAccessor.Setter<T>(target, property))
         {
             From = PropertyAccessor.Getter<T>(target, property)();
         }
-
-        public Tween(Action<T> set, Func<T, T, double, T> interpolate = null)
+        public Tween(Action<T> set)
         {
             if (set == null) throw new ArgumentNullException(nameof(set));
             
             this.Set = set;
-            this.Interpolate = interpolate ?? Interpolate<T>.Value;
-
-            if (this.Interpolate == null) throw new ArgumentNullException($"Interpolator not found for type: { typeof(T) }");
+            this.Interpolate = Interpolate<T>.Value;
         }
 
         protected override void Seek(double percentage, double previousPercentage)

@@ -1,6 +1,7 @@
 namespace Nine.Animation
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
 #if WPF
     using System.Windows;
@@ -10,20 +11,29 @@ namespace Nine.Animation
     [EditorBrowsable(EditorBrowsableState.Never)]
     static class AnimatableExtensions
     {
+        private static readonly object nullObject = new object();
 #if WPF
-        private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(IAnimatable2D), typeof(AnimatableExtensions));
+        private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(Dictionary<object, IAnimatable2D>), typeof(AnimatableExtensions));
+
+        public static IAnimatable2D GetAnimatable(this FrameworkElement element, object channel = null)
+        {
+            channel = channel ?? nullObject;
+            var result = (IAnimatable2D)null;
+            var resultByChannel = (Dictionary<object, IAnimatable2D>)element.GetValue(animatableProperty);
+            if (resultByChannel == null) element.SetValue(animatableProperty, resultByChannel = new Dictionary<object, IAnimatable2D>());
+            if (!resultByChannel.TryGetValue(channel, out result)) resultByChannel[channel] = result = new FrameworkElementAnimatable(element);
+            return result;
+        }
 
         public static TweenBuilder2D Tween(this FrameworkElement element, object channel = null)
         {
-            var result = (IAnimatable2D)element.GetValue(animatableProperty);
-            if (result == null) element.SetValue(animatableProperty, result = new FrameworkElementAnimatable(element));
-            return new TweenBuilder2D(result);
+            var anim = (FrameworkElementAnimatable)GetAnimatable(element, channel);
+            anim.FrameTimer.Clear();
+            return new TweenBuilder2D(anim);
         }
 
         class DispatchFrameTimer : FrameTimer
         {
-            public static readonly DispatchFrameTimer Default = new DispatchFrameTimer();
-
             public DispatchFrameTimer()
             {
                 CompositionTarget.Rendering += (sender, e) => UpdateFrame();
@@ -37,10 +47,8 @@ namespace Nine.Animation
             private RotateTransform rotate;
             private TranslateTransform translate;
 
-            public IFrameTimer FrameTimer
-            {
-                get { return DispatchFrameTimer.Default; }
-            }
+            public DispatchFrameTimer FrameTimer { get; } = new DispatchFrameTimer();
+            IFrameTimer IAnimatable.FrameTimer => FrameTimer;
 
             public FrameworkElementAnimatable(FrameworkElement e)
             {
