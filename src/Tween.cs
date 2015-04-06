@@ -3,13 +3,37 @@ namespace Nine.Animation
     using System;
 
     /// <summary>
+    /// Defines in which direction will the transition be eased.
+    /// </summary>
+    public enum EaseInOut
+    {
+        /// <summary>
+        /// Eased when transiting in.
+        /// </summary>
+        In,
+
+        /// <summary>
+        /// Eased when transiting out.
+        /// </summary>
+        Out,
+
+        /// <summary>
+        /// Eased when both transiting in and out.
+        /// </summary>
+        InOut,
+    }
+
+    /// <summary>
     /// Implements a basic primitive animation that changes its value over time.
     /// Can also update the value of a named target property on an target object.
     /// </summary>
     public abstract class Tween : Timeline
     {
-        public static Func<double, double> DefaultEase { get; set; } = Nine.Animation.Ease.Sin;
         public Func<double, double> Ease { get; set; } = DefaultEase;
+        public static Func<double, double> DefaultEase { get; set; } = Nine.Animation.Ease.Sin;
+
+        public EaseInOut InOut { get; set; } = DefaultInOut;
+        public static EaseInOut DefaultInOut { get; set; } = EaseInOut.InOut;
     }
 
     /// <summary>
@@ -47,7 +71,22 @@ namespace Nine.Animation
             if (percentage <= 0) { Set(From); return; }
             if (percentage >= 1) { Set(To); return; }
 
-            Set.Invoke(Interpolate(From, To, Ease(percentage)));
+            switch (InOut)
+            {
+                case EaseInOut.In:
+                    percentage = Ease(percentage);
+                    break;
+                case EaseInOut.Out:
+                    percentage = 1.0 - Ease(1.0 - percentage);
+                    break;
+                case EaseInOut.InOut:
+                    percentage = percentage < 0.5 ?
+                        Ease(percentage * 2) * 0.5 :
+                        0.5 + (1.0 - Ease(1.0 - (percentage - 0.5) * 2)) * 0.5;
+                    break;
+            }
+
+            Set.Invoke(Interpolate(From, To, percentage));
         }
     }
 }

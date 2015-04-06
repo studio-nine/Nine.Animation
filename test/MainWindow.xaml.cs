@@ -40,7 +40,7 @@
                 // TODO: AnimateSmooth
                 await Ball.Tween(/* TODO: channel name to override animation */)
                           .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y).Delay(1000)
-                          .FadeIn();
+                          .FadeIn().Out();
 
                 // Ball.Tween().RotateBy(Math.PI);
                 // Ball.Tween().SpinOnce();

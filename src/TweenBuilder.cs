@@ -64,10 +64,17 @@ namespace Nine.Animation
             return this;
         }
 
-        public TweenBuilder Yoyo()
+        public TweenBuilder Yoyo(bool value = true)
         {
             var anim = animation as Timeline;
-            if (anim != null) anim.Yoyo = true;
+            if (anim != null) anim.Yoyo = value;
+            return this;
+        }
+
+        public TweenBuilder Forward()
+        {
+            var anim = animation as Timeline;
+            if (anim != null) anim.Forward = true;
             return this;
         }
 
@@ -82,6 +89,27 @@ namespace Nine.Animation
         {
             var anim = animation as Tween;
             if (anim != null) anim.Ease = value;
+            return this;
+        }
+
+        public TweenBuilder In()
+        {
+            var anim = animation as Tween;
+            if (anim != null) anim.InOut = EaseInOut.In;
+            return this;
+        }
+
+        public TweenBuilder Out()
+        {
+            var anim = animation as Tween;
+            if (anim != null) anim.InOut = EaseInOut.Out;
+            return this;
+        }
+
+        public TweenBuilder InOut()
+        {
+            var anim = animation as Tween;
+            if (anim != null) anim.InOut = EaseInOut.InOut;
             return this;
         }
 

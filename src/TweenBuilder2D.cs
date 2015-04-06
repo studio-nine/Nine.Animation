@@ -13,9 +13,13 @@ namespace Nine.Animation
         public new TweenBuilder2D Delay(double value) => (TweenBuilder2D)base.Delay(value);
         public new TweenBuilder2D Repeat(double value) => (TweenBuilder2D)base.Repeat(value);
         public new TweenBuilder2D RepeatForever() => (TweenBuilder2D)base.RepeatForever();
-        public new TweenBuilder2D Yoyo() => (TweenBuilder2D)base.Yoyo();
+        public new TweenBuilder2D Yoyo(bool value = true) => (TweenBuilder2D)base.Yoyo(value);
+        public new TweenBuilder2D Forward() => (TweenBuilder2D)base.Forward();
         public new TweenBuilder2D Backward() => (TweenBuilder2D)base.Backward();
         public new TweenBuilder2D Ease(Func<double, double> value) => (TweenBuilder2D)base.Ease(value);
+        public new TweenBuilder2D In() => (TweenBuilder2D)base.In();
+        public new TweenBuilder2D Out() => (TweenBuilder2D)base.Out();
+        public new TweenBuilder2D InOut() => (TweenBuilder2D)base.InOut();
 
         public new TweenBuilder2D OnStart(Action value) => (TweenBuilder2D)base.OnStart(value);
         public new TweenBuilder2D OnComplete(Action value) => (TweenBuilder2D)base.OnComplete(value);
@@ -26,7 +30,7 @@ namespace Nine.Animation
         {
             return new TweenBuilder2D(this, new Tween<T>(set) { From = from, To = to });
         }
-        public new TweenBuilder2D Tween<T>(object target, string property, T to, double duration = -1, Func<double, double> ease = null, double delay = 0)
+        public new TweenBuilder2D Tween<T>(object target, string property, T to)
         {
             return new TweenBuilder2D(this, new Tween<T>(target, property) { To = to });
         }
