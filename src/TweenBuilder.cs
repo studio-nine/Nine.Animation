@@ -157,8 +157,8 @@ namespace Nine.Animation
             return this;
         }
 
-        public TweenBuilder Tween<T>(Tween<T> animation) => new TweenBuilder(this, animation);
-        public TweenBuilder Tween<T>(Action<T> set, T from, T to) => new TweenBuilder(this, new Tween<T>(set) { From = from, To = to });
-        public TweenBuilder Tween<T>(object target, string property, T to) => new TweenBuilder(this, new Tween<T>(target, property) { To = to });
+        public TweenBuilder To<T>(Tween<T> animation) => new TweenBuilder(this, animation);
+        public TweenBuilder To<T>(Action<T> set, T from, T to) => new TweenBuilder(this, new Tween<T>(set) { From = from, To = to });
+        public TweenBuilder To<T>(object target, string property, T to) => new TweenBuilder(this, new Tween<T>(target, property) { To = to });
     }
 }

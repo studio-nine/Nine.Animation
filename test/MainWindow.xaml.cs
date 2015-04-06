@@ -36,7 +36,6 @@
 
                 // TODO: animation multiple targets
                 // TODO: stagger ???
-                // TODO: attribte override
                 // TODO: AnimateSmooth
                 // TODO: channel name to override animation
                 await Ball.Tween().Duration(500).Delay(1000).InOut()
@@ -63,7 +62,7 @@
             var repeat = Repeat.IsChecked.HasValue && Repeat.IsChecked.Value ? double.MaxValue : 1;
             var yoyo = Yoyo.IsChecked ?? false;
 
-            await target.Tween().Tween(
+            await target.Tween().To(
                 new Tween<double>(x => target.Tween().Target.Position = new Vector2(x, 0))
                 {
                     Ease = easing,

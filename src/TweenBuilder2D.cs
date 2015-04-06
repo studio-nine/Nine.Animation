@@ -27,12 +27,12 @@ namespace Nine.Animation
         public new TweenBuilder2D OnComplete(Action value) => (TweenBuilder2D)base.OnComplete(value);
         public new TweenBuilder2D OnRepeat(Action value) => (TweenBuilder2D)base.OnRepeat(value);
 
-        public new TweenBuilder2D Tween<T>(Tween<T> animation) => new TweenBuilder2D(this, animation);
-        public new TweenBuilder2D Tween<T>(Action<T> set, T from, T to)
+        public new TweenBuilder2D To<T>(Tween<T> animation) => new TweenBuilder2D(this, animation);
+        public new TweenBuilder2D To<T>(Action<T> set, T from, T to)
         {
             return new TweenBuilder2D(this, new Tween<T>(set) { From = from, To = to });
         }
-        public new TweenBuilder2D Tween<T>(object target, string property, T to)
+        public new TweenBuilder2D To<T>(object target, string property, T to)
         {
             return new TweenBuilder2D(this, new Tween<T>(target, property) { To = to });
         }
