@@ -35,24 +35,24 @@ namespace Nine.Animation
             return new TweenBuilder2D(anim);
         }
 
-        public static TweenBuilder2D TweenAll(this ItemsControl items, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        public static TweenBuilder2D TweenAll(this ItemsControl items, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, object channel = null)
         {
             return TweenAll(Enumerable.Range(0, items.Items.Count).Select(i => items.ItemContainerGenerator.ContainerFromIndex(i)).OfType<FrameworkElement>(), builder, stagger, channel);
         }
 
-        public static TweenBuilder2D TweenAll(this Panel panel, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        public static TweenBuilder2D TweenAll(this Panel panel, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, object channel = null)
         {
             return TweenAll(panel.Children.OfType<FrameworkElement>(), builder, stagger, channel);
         }
 
-        public static TweenBuilder2D TweenAll(this IEnumerable<FrameworkElement> items, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        public static TweenBuilder2D TweenAll(this IEnumerable<FrameworkElement> items, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, object channel = null)
         {
             double delay = 0.0;
             TweenBuilder2D result = null;
             foreach (var item in items)
             {
-                builder(result = Tween(item, channel));
-                var anim = result.Target as Timeline;
+                result = builder(Tween(item, channel));
+                var anim = result.Animation as Timeline;
                 if (anim != null) anim.Delay += delay;
                 delay += stagger;
             }

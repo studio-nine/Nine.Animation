@@ -21,7 +21,7 @@
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
-            <Ellipse Name="Ball" Width="200" Height="100" Fill="#444" RenderTransformOrigin="0.5, 0.5" />
+            <Rectangle Name="Ball" Width="200" Height="100" Fill="#444" RenderTransformOrigin="0.5, 0.5" />
         </Grid>
     </Grid>
 </Window>

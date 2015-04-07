@@ -14,7 +14,6 @@ namespace Nine.Animation
     public abstract class FrameTimer : IFrameTimer
     {
         private bool updating = false;
-        private bool needsClear = false;
         private readonly Stopwatch watch = new Stopwatch();
         private readonly List<Func<double, bool>> listeners = new List<Func<double, bool>>();
 
@@ -24,6 +23,11 @@ namespace Nine.Animation
             {
                 throw new ArgumentNullException(nameof(listener));
             }
+            if (updating)
+            {
+                throw new InvalidOperationException("Cannot manipulate the FrameTimer when it is updating");
+            }
+
             listeners.Add(listener);
         }
 
@@ -31,12 +35,10 @@ namespace Nine.Animation
         {
             if (updating)
             {
-                needsClear = true;
+                throw new InvalidOperationException("Cannot manipulate the FrameTimer when it is updating");
             }
-            else
-            {
-                listeners.Clear();
-            }
+
+            listeners.Clear();
         }
 
         public virtual void UpdateFrame(double? elapsedTime = null)
@@ -74,10 +76,6 @@ namespace Nine.Animation
             finally
             {
                 updating = false;
-                if (needsClear)
-                {
-                    listeners.Clear();
-                }
             }
         }
     }

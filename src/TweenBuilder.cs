@@ -11,6 +11,7 @@ namespace Nine.Animation
         private bool inherit = true;
         
         public IAnimatable Target => target;
+        public IAnimation Animation => animation;
 
         public TweenBuilder() { IsCompleted = true; }
 
