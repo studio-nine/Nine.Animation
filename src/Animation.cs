@@ -21,18 +21,18 @@ namespace Nine.Animation
         /// <summary>
         /// Occurs when this animation has played to the end.
         /// </summary>
-        public event Action Stopped;
+        public event Action Completed;
 
         /// <summary>
         /// Stops this animation.
         /// </summary>
-        public void Stop()
+        public void Complete()
         {
             if (IsPlaying)
             {
                 IsPlaying = false;
                 continuation?.Invoke();
-                Stopped?.Invoke();
+                Completed?.Invoke();
             }
         }
 
@@ -61,7 +61,7 @@ namespace Nine.Animation
 
             if (UpdateCore(deltaTime))
             {
-                Stop();
+                Complete();
                 return true;
             }
 
