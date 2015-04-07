@@ -95,6 +95,12 @@ namespace Nine.Animation
             Interpolate<long>.Value = new Func<long, long, double, long>(Lerp);
             Interpolate<ulong>.Value = new Func<ulong, ulong, double, ulong>(Lerp);
             Interpolate<char>.Value = new Func<char, char, double, char>(Lerp);
+
+            Interpolate<Vector2>.Value = (Vector2 a, Vector2 b, double t) => new Vector2
+            {
+                X = a.X * (1 - t) + b.X * t,
+                Y = a.Y * (1 - t) + b.Y * t,
+            };
         }
     }
 }

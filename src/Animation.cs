@@ -1,12 +1,12 @@
 namespace Nine.Animation
 {
     using System;
-    using System.Runtime.CompilerServices;
-    
-    public abstract class Animation : IAnimation, INotifyCompletion
+    using System.ComponentModel;
+
+    public abstract class Animation : IAnimation, IAwaitable, IAwaiter
     {
         private Action continuation;
-        private double elapsed;
+        private double elapsedTime;
 
         /// <summary>
         /// Gets a value indicating whether this animation is playing.
@@ -14,17 +14,9 @@ namespace Nine.Animation
         public bool IsPlaying { get; private set; } = true;
 
         /// <summary>
-        /// Gets or sets the delay before this animation is played.
+        /// Gets or sets the delay before the animation has started.
         /// </summary>
-        public TimeSpan Delay
-        {
-            get { return TimeSpan.FromMilliseconds(delay); }
-            set { delay = value.TotalMilliseconds; }
-        }
-        private double delay;
-
-        public Animation SetDelay(double value) { this.delay = value; return this; }
-        public Animation SetDelay(TimeSpan value) { this.delay = value.TotalMilliseconds; return this; }
+        public double Delay { get; set; }
 
         /// <summary>
         /// Occurs when this animation has played to the end.
@@ -45,21 +37,29 @@ namespace Nine.Animation
         }
 
         /// <summary>
+        /// Occurs when this animation is about to playing.
+        /// </summary>
+        public event Action Started;
+
+        /// <summary>
         /// Update the animation by a specified amount of elapsed time.
         /// Handle playing either forwards or backwards.
         /// Determines whether animation should terminate or continue.
         /// Signals related events.
         /// </summary>
-        public bool Update(double elapsedTime)
+        public bool Update(double deltaTime)
         {
             if (!IsPlaying) return true;
 
-            elapsed += elapsedTime;
-            elapsedTime = (elapsed - delay);
+            if (elapsedTime < Delay)
+            {
+                elapsedTime += deltaTime;
+                if (elapsedTime < Delay) return false;
+                deltaTime = (elapsedTime - Delay);
+                Started?.Invoke();
+            }
 
-            if (elapsedTime < 0) return false;
-
-            if (UpdateCore(elapsedTime))
+            if (UpdateCore(deltaTime))
             {
                 Stop();
                 return true;
@@ -68,11 +68,24 @@ namespace Nine.Animation
             return false;
         }
 
-        protected abstract bool UpdateCore(double elapsedTime);
+        protected abstract bool UpdateCore(double deltaTime);
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsCompleted => !IsPlaying;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void GetResult() { }
-        public Animation GetAwaiter() => this;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public IAwaiter GetAwaiter() => this;
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void OnCompleted(Action continuation) => this.continuation = continuation;
+
+        public virtual void InheritFrom(IAnimation other)
+        {
+            var anim = other as Animation;
+            if (anim != null)
+            {
+                Delay = anim.Delay;
+            }
+        }
     }
 }

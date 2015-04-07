@@ -2,11 +2,8 @@ namespace Nine.Animation
 {
     public interface IAnimatable2D : IAnimatable
     {
-        double X { get; set; }
-        double Y { get; set; }
-
-        double ScaleX { get; set; }
-        double ScaleY { get; set; }
+        Vector2 Position { get; set; }
+        Vector2 Scale { get; set; }
 
         double Alpha { get; set; }
 

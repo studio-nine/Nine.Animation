@@ -2,24 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using Nine.Animation;
 
     public partial class MainWindow : Window
     {
         private readonly Dictionary<string, Func<double, double>> easings = new Dictionary<string, Func<double, double>>
         {
-            { nameof(Easing.Linear), new Func<double, double>(Easing.Linear) },
-            { nameof(Easing.Quad), new Func<double, double>(Easing.Quad) },
-            { nameof(Easing.Cubic), new Func<double, double>(Easing.Cubic) },
-            { nameof(Easing.Quart), new Func<double, double>(Easing.Quart) },
-            { nameof(Easing.Quint), new Func<double, double>(Easing.Quint) },
-            { nameof(Easing.Sin), new Func<double, double>(Easing.Sin) },
-            { nameof(Easing.Circular), new Func<double, double>(Easing.Circular) },
-            { nameof(Easing.Exp), new Func<double, double>(Easing.Exp) },
-            { nameof(Easing.Back), new Func<double, double>(Easing.Back) },
-            { nameof(Easing.Bounce), new Func<double, double>(Easing.Bounce) },
-            { nameof(Easing.Elastic), new Func<double, double>(Easing.Elastic) },
+            { nameof(Ease.Linear), Ease.Linear },
+            { nameof(Ease.Quad), Ease.Quad },
+            { nameof(Ease.Cubic), Ease.Cubic },
+            { nameof(Ease.Quart), Ease.Quart },
+            { nameof(Ease.Quint), Ease.Quint },
+            { nameof(Ease.Sin), Ease.Sin },
+            { nameof(Ease.Circular), Ease.Circular },
+            { nameof(Ease.Exp), Ease.Exp },
+            { nameof(Ease.Back), Ease.Back },
+            { nameof(Ease.Bounce), Ease.Bounce },
+            { nameof(Ease.Elastic), Ease.Elastic },
         };
 
         public MainWindow()
@@ -28,15 +30,38 @@
 
             EasingList.ItemsSource = easings.Keys;
             EasingList.SelectionChanged += (sender, e) => Animate(Ball);
-            MouseLeftButtonDown += (sender, e) =>
+
+            MouseLeftButtonDown += async (sender, e) =>
             {
-                // Ball.Animate().FadeTo(0.5);
-                // Ball.Animate().FadeOut();
-                 Ball.Animate().MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y);
-                // Ball.Animate().RotateBy(Math.PI);
-                // Ball.Animate().SpinOnce();
-                // Ball.Animate().Spin();
-                // Ball.Animate().ScaleBy(1.5, 2.0);
+                // Ball.Tween().FadeTo(0.5);
+                // Ball.Tween().FadeOut();
+
+                // TODO: animation multiple targets
+                // TODO: smooth tween using Spring
+                await Ball.Tween().Duration(1000).Delay(200)
+                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
+                          .FadeIn().OnStart(() => Title += "+");
+
+                // await EasingList.Items.Cast<FrameworkElement>().Tween(100).FadeIn();
+                EasingList.TweenAll(t => t.FadeIn(), 100);
+
+                // Ball.Tween().RotateBy(Math.PI);
+                // Ball.Tween().SpinOnce();
+                // Ball.Tween().Spin();
+                // Ball.Tween().ScaleBy(1.5, 2.0);
+            };
+
+            var spring = new Spring();
+            Ball.GetAnimatable().FrameTimer.OnTick(dt =>
+            {
+                spring.Update(dt);
+                // Ball.GetAnimatable().Position = new Vector2(spring.Value, 0);
+                return false;
+            });
+
+            MouseMove += (sender, e) =>
+            {
+                // spring.Target = e.GetPosition(this).X;
             };
         }
 
@@ -44,11 +69,17 @@
         {
             var easing = easings[EasingList.SelectedItem.ToString()];
             var repeat = Repeat.IsChecked.HasValue && Repeat.IsChecked.Value ? double.MaxValue : 1;
-            var autoReverse = AutoReverse.IsChecked ?? false;
+            var yoyo = Yoyo.IsChecked ?? false;
 
-            await target.Animate()
-                        .Tween(x => target.Animate().X = x, -300, 300)
-                        .InOut().SetEasing(easing).SetRepeat(repeat).SetAutoReverse(autoReverse);
+            await target.Tween().To(
+                new Tween<double>(x => target.GetAnimatable().Position = new Vector2(x, 0))
+                {
+                    Ease = easing,
+                    Repeat = repeat,
+                    Yoyo = yoyo,
+                    From = -300,
+                    To = 300,
+                });
         }
     }
 }

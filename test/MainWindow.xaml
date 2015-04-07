@@ -16,7 +16,7 @@
             <ListBox Name="EasingList" Background="Transparent" Foreground="#888" BorderThickness="0" SelectedIndex="0">
             </ListBox>
             <StackPanel Grid.Row="1">
-                <CheckBox Name="AutoReverse" Foreground="#888" Margin="20">Auto Reverse</CheckBox>
+                <CheckBox Name="Yoyo" Foreground="#888" Margin="20">Auto Reverse</CheckBox>
                 <CheckBox Name="Repeat" Foreground="#888" Margin="20">Repeat Forever</CheckBox>
             </StackPanel>
         </Grid>

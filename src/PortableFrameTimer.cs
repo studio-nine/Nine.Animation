@@ -11,9 +11,9 @@ namespace Nine.Animation
 
         private bool running;
 
-        public override void Tick(Func<double, bool> listener)
+        public override void OnTick(Func<double, bool> listener)
         {
-            base.Tick(listener);
+            base.OnTick(listener);
             if (!running) Loop();
         }
 
