@@ -24,20 +24,43 @@ namespace Nine.Animation
             var result = (IAnimatable2D)null;
             var resultByChannel = (Dictionary<object, IAnimatable2D>)element.GetValue(animatableProperty);
             if (resultByChannel == null) element.SetValue(animatableProperty, resultByChannel = new Dictionary<object, IAnimatable2D>());
-            if (!resultByChannel.TryGetValue(channel, out result)) resultByChannel[channel] = result = new FrameworkElementAnimatable(element);
+            if (!resultByChannel.TryGetValue(channel, out result)) resultByChannel[channel] = result = new SpringAnimatable2D(new FrameworkElementAnimatable(element));
             return result;
+        }
+
+        public static TweenBuilder2D Spring(this FrameworkElement element, double tension = -1, double friction = -1, object channel = null)
+        {
+            var spring = (SpringAnimatable2D)GetAnimatable(element, channel);
+            if (tension >= 0) spring.Tension = tension;
+            if (friction >= 0) spring.Friction = friction;
+
+            var anim = (FrameworkElementAnimatable)spring.Animatable;
+            anim.FrameTimer.Clear();
+            anim.FrameTimer.OnTick(spring.Update);
+            return new TweenBuilder2D(spring);
         }
 
         public static TweenBuilder2D Tween(this FrameworkElement element, object channel = null)
         {
-            var anim = (FrameworkElementAnimatable)GetAnimatable(element, channel);
+            var spring = (SpringAnimatable2D)GetAnimatable(element, channel);
+            var anim = (FrameworkElementAnimatable)spring.Animatable;
             anim.FrameTimer.Clear();
             return new TweenBuilder2D(anim);
+        }
+
+        public static TweenBuilder2D SpringAll(this ItemsControl items, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, double tension = -1, double friction = -1, object channel = null)
+        {
+            return SpringAll(Enumerable.Range(0, items.Items.Count).Select(i => items.ItemContainerGenerator.ContainerFromIndex(i)).OfType<FrameworkElement>(), builder, stagger, tension, friction, channel);
         }
 
         public static TweenBuilder2D TweenAll(this ItemsControl items, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, object channel = null)
         {
             return TweenAll(Enumerable.Range(0, items.Items.Count).Select(i => items.ItemContainerGenerator.ContainerFromIndex(i)).OfType<FrameworkElement>(), builder, stagger, channel);
+        }
+
+        public static TweenBuilder2D SpringAll(this Panel panel, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, double tension = -1, double friction = -1, object channel = null)
+        {
+            return SpringAll(panel.Children.OfType<FrameworkElement>(), builder, stagger, tension, friction, channel);
         }
 
         public static TweenBuilder2D TweenAll(this Panel panel, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, object channel = null)
@@ -52,6 +75,20 @@ namespace Nine.Animation
             foreach (var item in items)
             {
                 result = builder(Tween(item, channel));
+                var anim = result.Animation as Timeline;
+                if (anim != null) anim.Delay += delay;
+                delay += stagger;
+            }
+            return result ?? new TweenBuilder2D();
+        }
+
+        public static TweenBuilder2D SpringAll(this IEnumerable<FrameworkElement> items, Func<TweenBuilder2D, TweenBuilder2D> builder, double stagger = 0, double tension = -1, double friction = -1, object channel = null)
+        {
+            double delay = 0.0;
+            TweenBuilder2D result = null;
+            foreach (var item in items)
+            {
+                result = builder(Spring(item, tension, friction, channel));
                 var anim = result.Animation as Timeline;
                 if (anim != null) anim.Delay += delay;
                 delay += stagger;

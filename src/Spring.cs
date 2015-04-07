@@ -5,15 +5,27 @@ namespace Nine.Animation
         struct State { public double x, v; }
         struct Derivative { public double dx, dv; }
 
-        private const double solverTimeStep = 10;
+        private const double solverTimeStep = 10.0 / 1000;
 
         private State state;
 
-        public static double DefaultTension { get; set; } = (40.0 - 30.0) * 3.62 + 194.0;
-        public static double DefaultFriction { get; set; } = (7.0 - 8.0) * 3.0 + 25.0;
+        // http://facebook.github.io/rebound-js/docs/rebound.html
+        public static double DefaultTension { get; set; } = 40.0;
+        public static double DefaultFriction { get; set; } = 7.0;
 
-        public double Tension { get; set; } = DefaultTension;
-        public double Friction { get; set; } = DefaultFriction;
+        public double Tension
+        {
+            get { return (tension - 194.0) / 3.62 + 30.0; }
+            set { tension = (value - 30.0) * 3.62 + 194.0; }
+        }
+        private double tension;
+
+        public double Friction
+        {
+            get { return (friction - 25.0) / 3.0 + 8.0; }
+            set { friction = (value - 8.0) * 3.0 + 25.0; }
+        }
+        private double friction;
 
         public double Target { get; set; }
 
@@ -25,9 +37,19 @@ namespace Nine.Animation
 
         public bool IsActive { get; private set; } = true;
 
+        public Spring() { Tension = DefaultTension; Friction = DefaultFriction; }
+        public Spring(double value) : this() { Reset(value); }
+
+        public void Reset(double value)
+        {
+            Target = Value = value;
+        }
+
         public virtual bool Update(double deltaTime)
         {
             if (!IsActive) return false;
+
+            deltaTime *= 0.001; // Convert to seconds.
 
             while (deltaTime > solverTimeStep)
             {
@@ -63,15 +85,15 @@ namespace Nine.Animation
             return new Derivative { dx = initial.v + d.dv * dt, dv = Acceleration(ref state) };
         }
 
-        private double Acceleration(ref State state) => Tension * (Target - state.x) - Friction * state.v;
+        private double Acceleration(ref State state) => tension * (Target - state.x) - friction * state.v;
 
         public void InheritFrom(IAnimation other)
         {
             var spring = other as Spring;
             if (spring != null)
             {
-                Tension = spring.Tension;
-                Friction = spring.Friction;
+                tension = spring.tension;
+                friction = spring.friction;
             }
         }
     }

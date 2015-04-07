@@ -37,6 +37,8 @@
     <DocumentationFile>bin\Release\Nine.Animation.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="SpringAnimatable2D.cs" />
+    <Compile Include="Spring2D.cs" />
     <Compile Include="TweenBuilder2DExtensions.cs" />
     <Compile Include="TweenBuilder.cs" />
     <Compile Include="TweenBuilder2D.cs" />
@@ -45,7 +47,6 @@
     <Compile Include="Vector2.cs" />
     <Compile Include="Interpolate.cs" />
     <Compile Include="Animation.cs" />
-    <Compile Include="Spring2D.cs" />
     <Compile Include="Timeline.cs" />
     <Compile Include="Spring.cs" />
     <Compile Include="PropertyAccessor.cs" />

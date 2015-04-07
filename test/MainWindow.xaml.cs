@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows;
-    using System.Windows.Controls;
     using Nine.Animation;
 
     public partial class MainWindow : Window
@@ -35,13 +33,14 @@
             {
                 // Ball.Tween().FadeTo(0.5);
                 // Ball.Tween().FadeOut();
-                
-                // TODO: smooth tween using Spring
-                await Ball.Tween().Duration(1000).Delay(200)
-                          .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
-                          .FadeIn().OnStart(() => Title += "+");
 
-                await EasingList.TweenAll(t => t.FadeIn(), 50);
+                // TODO: Spring end detection.
+                await Ball.Spring().Duration(500).Out()
+                            .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
+                            .FadeIn().OnStart(() => Title += "+");
+
+                await EasingList.SpringAll(t => t.FadeIn(), 50);
+                //await EasingList.TweenAll(t => t.FadeIn(), 50);
 
                 // Ball.Tween().RotateBy(Math.PI);
                 // Ball.Tween().SpinOnce();
@@ -49,17 +48,19 @@
                 // Ball.Tween().ScaleBy(1.5, 2.0);
             };
 
-            var spring = new Spring();
+            var spring = new Spring2D();
             Ball.GetAnimatable().FrameTimer.OnTick(dt =>
             {
                 spring.Update(dt);
-                // Ball.GetAnimatable().Position = new Vector2(spring.Value, 0);
+                //Ball.GetAnimatable().Position = spring.Value;
                 return false;
             });
 
             MouseMove += (sender, e) =>
             {
-                // spring.Target = e.GetPosition(this).X;
+                spring.Target = new Vector2(
+                    e.GetPosition(this).X - 500,
+                    e.GetPosition(this).Y - 200);
             };
         }
 

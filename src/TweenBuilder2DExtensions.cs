@@ -44,11 +44,5 @@ namespace Nine.Animation
 
         public static TweenBuilder2D Spin(this TweenBuilder2D builder, double times = double.MaxValue)
             => RotateBy(builder, Math.PI * 2).Repeat(times);
-        
-        public static TweenBuilder2D PopIn(this TweenBuilder2D builder)
-            => builder.To(a => builder.Target.Alpha = a, 0.0, 1.0);
-
-        public static TweenBuilder2D PopOut(this TweenBuilder2D builder)
-            => builder.To(a => builder.Target.Alpha = a, 0.0, 1.0);
     }
 }
