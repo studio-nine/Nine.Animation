@@ -1,13 +1,12 @@
 namespace Nine.Animation
 {
+#if !PCL
     using System;
     using System.Collections.Generic;
     using System.Linq;
-#if WPF
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-#endif
 
 #if TWEENER_PUBLIC
     public
@@ -15,7 +14,6 @@ namespace Nine.Animation
     static class Tweener
     {
         private static readonly object nullObject = new object();
-#if WPF
         private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(Dictionary<object, IAnimatable2D>), typeof(Tweener));
 
         public static IAnimatable2D GetAnimatable(this FrameworkElement element, object channel = null)
@@ -149,6 +147,6 @@ namespace Nine.Animation
                 set { scale.ScaleX = value.X; scale.ScaleY = value.Y; }
             }
         }
-#endif
     }
+#endif
 }

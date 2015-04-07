@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Nine.Animation.Wpf</id>
+    <version>1.0.0-alpha</version>
+    <authors>Studio Nine</authors>
+    <iconUrl>https://avatars3.githubusercontent.com/u/9212229?s=64</iconUrl>
+    <licenseUrl>https://github.com/yufeih/Nine.Animation/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/yufeih/Nine.Animation</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Enables Nine.Animation to work with WPF applications</description>
+    <tags>PCL, Portable, Animation, Tween, Transition, Easing, Pop, Rebound</tags>
+    <dependencies>
+      <dependency id="Nine.Animation" version="1.0.0-alpha" />
+    </dependencies> 
+  </metadata>
+  <files>
+    <file src="Tweener.Wpf.cs" target="content\net" />
+  </files>
+</package>

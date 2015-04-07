@@ -73,7 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\src\Tweener.cs" />
+    <Compile Include="..\targets\Tweener.Wpf.cs" />
     <Compile Include="AnimationTest.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
