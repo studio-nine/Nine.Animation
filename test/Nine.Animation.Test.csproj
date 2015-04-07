@@ -73,9 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\src\AnimatableExtensions.cs">
-      <Link>AnimatableExtensions.cs</Link>
-    </Compile>
+    <Compile Include="..\src\Tweener.cs" />
     <Compile Include="AnimationTest.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

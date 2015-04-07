@@ -6,6 +6,7 @@ namespace Nine.Animation
     {
         public new IAnimatable2D Target => (IAnimatable2D)base.Target;
 
+        public TweenBuilder2D() : base() { }
         public TweenBuilder2D(IAnimatable2D target) : base(target) { }
         public TweenBuilder2D(TweenBuilder2D builder, IAnimation animation) : base(builder, animation) { }
 

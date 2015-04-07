@@ -3,19 +3,20 @@ namespace Nine.Animation
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.ComponentModel;
 #if WPF
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
 #endif
 
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    static class AnimatableExtensions
+#if TWEENER_PUBLIC
+    public
+#endif
+    static class Tweener
     {
         private static readonly object nullObject = new object();
 #if WPF
-        private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(Dictionary<object, IAnimatable2D>), typeof(AnimatableExtensions));
+        private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(Dictionary<object, IAnimatable2D>), typeof(Tweener));
 
         public static IAnimatable2D GetAnimatable(this FrameworkElement element, object channel = null)
         {
@@ -34,22 +35,28 @@ namespace Nine.Animation
             return new TweenBuilder2D(anim);
         }
 
-        public static void TweenAll(this ItemsControl items, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        public static TweenBuilder2D TweenAll(this ItemsControl items, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
         {
-            double delay = 0.0;
-            foreach (var element in Enumerable.Range(0, items.Items.Count).Select(i => items.ItemContainerGenerator.ContainerFromIndex(i)).OfType<FrameworkElement>())
-            {
-                builder(Tween(element, channel).Delay(delay += stagger));
-            }
+            return TweenAll(Enumerable.Range(0, items.Items.Count).Select(i => items.ItemContainerGenerator.ContainerFromIndex(i)).OfType<FrameworkElement>(), builder, stagger, channel);
         }
 
-        public static void TweenAll(this Panel panel, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        public static TweenBuilder2D TweenAll(this Panel panel, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
+        {
+            return TweenAll(panel.Children.OfType<FrameworkElement>(), builder, stagger, channel);
+        }
+
+        public static TweenBuilder2D TweenAll(this IEnumerable<FrameworkElement> items, Action<TweenBuilder2D> builder, double stagger = 0, object channel = null)
         {
             double delay = 0.0;
-            foreach (var element in panel.Children.OfType<FrameworkElement>())
+            TweenBuilder2D result = null;
+            foreach (var item in items)
             {
-                builder(Tween(element, channel).Delay(delay += stagger));
+                builder(result = Tween(item, channel));
+                var anim = result.Target as Timeline;
+                if (anim != null) anim.Delay += delay;
+                delay += stagger;
             }
+            return result ?? new TweenBuilder2D();
         }
 
         class DispatchFrameTimer : FrameTimer

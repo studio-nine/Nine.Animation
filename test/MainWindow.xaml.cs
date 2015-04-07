@@ -35,15 +35,13 @@
             {
                 // Ball.Tween().FadeTo(0.5);
                 // Ball.Tween().FadeOut();
-
-                // TODO: animation multiple targets
+                
                 // TODO: smooth tween using Spring
                 await Ball.Tween().Duration(1000).Delay(200)
                           .MoveBy(e.GetPosition(Ball).X, e.GetPosition(Ball).Y)
                           .FadeIn().OnStart(() => Title += "+");
 
-                // await EasingList.Items.Cast<FrameworkElement>().Tween(100).FadeIn();
-                EasingList.TweenAll(t => t.FadeIn(), 100);
+                await EasingList.TweenAll(t => t.FadeIn(), 50);
 
                 // Ball.Tween().RotateBy(Math.PI);
                 // Ball.Tween().SpinOnce();

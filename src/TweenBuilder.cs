@@ -12,6 +12,8 @@ namespace Nine.Animation
         
         public IAnimatable Target => target;
 
+        public TweenBuilder() { IsCompleted = true; }
+
         public TweenBuilder(IAnimatable target)
         {
             if (target == null)
@@ -50,7 +52,11 @@ namespace Nine.Animation
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void GetResult() { }
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void OnCompleted(Action continuation) => this.continuation = continuation;
+        public void OnCompleted(Action continuation)
+        {
+            if (IsCompleted) continuation();
+            else this.continuation = continuation;
+        }
 
         public TweenBuilder Inherit(bool value = true)
         {
