@@ -18,6 +18,9 @@ namespace Nine.Animation
         public static TweenBuilder2D MoveTo(this TweenBuilder2D builder, double x, double y)
             => builder.To(a => builder.Target.Position = a, builder.Target.Position, new Vector2(x, y));
 
+        public static TweenBuilder2D MoveTo(this TweenBuilder2D builder, IAnimatable2D target)
+            => builder.To(a => builder.Target.Position = a, builder.Target.Position, target.Position);
+
         public static TweenBuilder2D MoveBy(this TweenBuilder2D builder, double x, double y)
             => builder.To(a => builder.Target.Position = a, builder.Target.Position, new Vector2(builder.Target.Position.X + x, builder.Target.Position.Y + y));
 
@@ -26,6 +29,9 @@ namespace Nine.Animation
 
         public static TweenBuilder2D ScaleTo(this TweenBuilder2D builder, double x, double y)
             => builder.To(a => builder.Target.Scale = a, builder.Target.Scale, new Vector2(x, y));
+
+        public static TweenBuilder2D ScaleTo(this TweenBuilder2D builder, IAnimatable2D target)
+            => builder.To(a => builder.Target.Scale = a, builder.Target.Scale, target.Scale);
 
         public static TweenBuilder2D ScaleBy(this TweenBuilder2D builder, double scale)
             => ScaleBy(builder, scale, scale);

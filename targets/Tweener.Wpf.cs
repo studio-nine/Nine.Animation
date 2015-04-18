@@ -14,9 +14,14 @@ namespace Nine.Animation
     static class Tweener
     {
         private static readonly object nullObject = new object();
-        private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(Dictionary<object, IAnimatable2D>), typeof(Tweener));
+        private static readonly DependencyProperty animatableProperty = DependencyProperty.RegisterAttached("Animatable", typeof(Dictionary<object, IAnimatable2D>), typeof(Tweener), new PropertyMetadata(null));
 
         public static IAnimatable2D GetAnimatable(this FrameworkElement element, object channel = null)
+        {
+            return ((SpringAnimatable2D)GetSpringAnimatable(element, channel)).Animatable;
+        }
+
+        public static IAnimatable2D GetSpringAnimatable(this FrameworkElement element, object channel = null)
         {
             channel = channel ?? nullObject;
             var result = (IAnimatable2D)null;
@@ -28,7 +33,7 @@ namespace Nine.Animation
 
         public static TweenBuilder2D Spring(this FrameworkElement element, double tension = -1, double friction = -1, object channel = null)
         {
-            var spring = (SpringAnimatable2D)GetAnimatable(element, channel);
+            var spring = (SpringAnimatable2D)GetSpringAnimatable(element, channel);
             if (tension >= 0) spring.Tension = tension;
             if (friction >= 0) spring.Friction = friction;
 
@@ -40,8 +45,7 @@ namespace Nine.Animation
 
         public static TweenBuilder2D Tween(this FrameworkElement element, object channel = null)
         {
-            var spring = (SpringAnimatable2D)GetAnimatable(element, channel);
-            var anim = (FrameworkElementAnimatable)spring.Animatable;
+            var anim = (FrameworkElementAnimatable)GetAnimatable(element, channel);
             anim.FrameTimer.Clear();
             return new TweenBuilder2D(anim);
         }
@@ -108,6 +112,8 @@ namespace Nine.Animation
             private ScaleTransform scale;
             private RotateTransform rotate;
             private TranslateTransform translate;
+            private Vector2 basePosition;
+            private bool layoutUpdated = true;
 
             public DispatchFrameTimer FrameTimer { get; } = new DispatchFrameTimer();
             IFrameTimer IAnimatable.FrameTimer => FrameTimer;
@@ -121,6 +127,7 @@ namespace Nine.Animation
 
                 this.e = e;
                 this.e.RenderTransform = transform;
+                this.e.LayoutUpdated += (a, b) => layoutUpdated = true;
             }
 
             public double Alpha
@@ -137,14 +144,25 @@ namespace Nine.Animation
 
             public Vector2 Position
             {
-                get { return new Vector2 { X = translate.X, Y = translate.Y }; }
-                set { translate.X = value.X; translate.Y = value.Y; }
+                get { UpdateBasePosition(); return new Vector2 { X = translate.X + basePosition.X, Y = translate.Y + basePosition.Y }; }
+                set { UpdateBasePosition(); translate.X = value.X - basePosition.X; translate.Y = value.Y - basePosition.Y; }
             }
 
             public Vector2 Scale
             {
                 get { return new Vector2 { X = scale.ScaleX, Y = scale.ScaleY }; }
                 set { scale.ScaleX = value.X; scale.ScaleY = value.Y; }
+            }
+
+            private void UpdateBasePosition()
+            {
+                if (layoutUpdated)
+                {
+                    var point = e.TransformToVisual((UIElement)VisualTreeHelper.GetParent(e)).Transform(new Point(0, 0));
+                    basePosition.X = point.X - translate.X;
+                    basePosition.Y = point.Y - translate.Y;
+                    layoutUpdated = false;
+                }
             }
         }
     }

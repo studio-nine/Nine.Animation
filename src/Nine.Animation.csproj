@@ -66,6 +66,6 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\NuGet.targets" Condition="Exists('$(SolutionDir)\NuGet.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>..\targets\build.cmd</PostBuildEvent>
+    <PostBuildEvent>$(SolutionDir)\targets\build.cmd</PostBuildEvent>
   </PropertyGroup>
 </Project>

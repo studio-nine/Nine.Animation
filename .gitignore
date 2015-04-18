@@ -4,6 +4,7 @@
 *.user
 *.ide
 *.exe
+*.nupkg
 
 /**/bin
 /**/obj
